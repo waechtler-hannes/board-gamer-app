@@ -2,7 +2,8 @@ import { router, Tabs } from 'expo-router'
 import React from 'react'
 import { Colors } from '../../constants/Colors'
 import { Ionicons } from '@expo/vector-icons'
-import { Button } from 'react-native'
+import ChatButton from '../../components/chatButton'
+import ProfileButton from '../../components/ProfileButton'
 
 const InteractionsLayout = () => {
   return (
@@ -24,20 +25,8 @@ const InteractionsLayout = () => {
         },
         headerRight: () =>
           <>
-            <Ionicons
-              size={24}
-              name="chatbox"
-              style={{padding: 10}}
-              color={Colors.primaryText}
-              onPress={() => router.navigate('/chat')}
-            />
-            <Ionicons
-              size={24}
-              name="person-circle"
-              style={{padding: 10}}
-              color={Colors.primaryText}
-              onPress={() => router.navigate('/profile')}
-            />
+            <ChatButton/>
+            <ProfileButton/>
           </>
       }}
     >
