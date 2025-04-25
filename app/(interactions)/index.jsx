@@ -4,6 +4,7 @@ import { router } from 'expo-router'
 import BasicButton from '../../components/BasicButton'
 import EventData from '../../assets/data/EventData'
 import EventView from '../../components/EventView'
+import HideWithKeyboard from 'react-native-hide-with-keyboard'
 
 const Events = () => {
   return (
@@ -13,10 +14,12 @@ const Events = () => {
           return <EventView value={value} key={index} />
         })}
       </ScrollView>
-      <BasicButton
-        onPress={() => router.navigate('/create')}
-        title="Event erstellen"
-      />
+      <HideWithKeyboard>
+        <BasicButton
+          onPress={() => router.navigate('/create')}
+          title="Event erstellen"
+        />
+      </HideWithKeyboard>
     </View>
   )
 }

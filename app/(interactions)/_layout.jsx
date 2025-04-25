@@ -13,6 +13,7 @@ const InteractionsLayout = () => {
         headerTintColor: Colors.primaryText,
         tabBarActiveTintColor: Colors.primary,
         tabBarInactiveTintColor: Colors.primaryDark,
+        tabBarHideOnKeyboard: true,
         headerStyle: {
           backgroundColor: Colors.primary
         },

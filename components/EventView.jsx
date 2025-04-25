@@ -62,7 +62,7 @@ const EventView = ({value}) => {
                 <View>
                   <Text style={styles.blockHeading}>Ort</Text>
                   <Text>
-                    {value.location.street} {value.location.housenumber}, {value.location.postal} {value.location.city}
+                    {value.location.street} {value.location.housenumber}, {value.location.postalcode} {value.location.city}
                   </Text>                  
                 </View>
                 <Ionicons
