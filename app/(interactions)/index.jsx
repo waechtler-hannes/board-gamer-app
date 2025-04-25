@@ -3,20 +3,20 @@ import React from 'react'
 import { router } from 'expo-router'
 import EventView from '../../components/EventView'
 import BasicButton from '../../components/BasicButton'
+import Data from '../../assets/data'
+import Accordion from '../../components/Accordion'
 
 const Events = () => {
   return (
     <View style={styles.container}>
-      <ScrollView style={styles.scrollContainer}>
+      <ScrollView showsVerticalScrollIndicator={false} style={styles.scrollContainer}>
+        {Data.map((value, index) => {
+          return <Accordion value={value} key={index} />
+        })}
         <EventView
           date={"25. April 2025"}
           host={"Erik"}
           editable={true}
-        />
-        <EventView
-          date={"02. Mai 2025"}
-          host={"Sarah"}
-          editable={false}
         />
       </ScrollView>
       <BasicButton
