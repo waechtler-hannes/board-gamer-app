@@ -5,5 +5,6 @@ export const Colors = {
     primaryText: "#FFFFFF",
     surface: "#FFFBEB",
     outline: "#C2A1AC",
-    grey: "#343434"
+    grey: "#343434",
+    error: "#E70C0C",
 }
