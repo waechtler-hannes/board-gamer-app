@@ -42,7 +42,7 @@ const InteractionsLayout = () => {
         ) }}
       />
       <Tabs.Screen
-        name="index"
+        name="events"
         options={{ title: "Events", tabBarIcon: ({ focused }) => (
           <Ionicons
             size={24}
