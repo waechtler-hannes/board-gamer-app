@@ -45,12 +45,12 @@ const Profile = () => {
 
       <View style={styles.buttongroup}>
       <CancelButton
-        onPress={() => router.navigate('/profile')}
+        onPress={() => router.navigate('/profile')} //Hier ist noch keine richtige Funktion hinterlegt
         title="Abbrechen"
       />
 
             <SubmitButton
-        onPress={() => router.navigate('/profile')}
+        onPress={() => router.navigate('/profile')} //Hier ist noch keine richtige Funktion hinterlegt
         title="Speichern"
       />
       </View>

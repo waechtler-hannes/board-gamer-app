@@ -30,7 +30,7 @@ const Login = () => {
         <TextInput style={styles.textinput}/>
       </View>
       <BasicButton
-        onPress={() => router.navigate('/index')} //hier noch die richtige Funktion + Verlinkung auslösen
+        onPress={() => router.push('/profile')} //leitet aktuell zur Profilseite
         title="Login"
       />
       <Spacer height={40}/>
