@@ -3,7 +3,6 @@ import React from 'react'
 import { StatusBar } from 'expo-status-bar'
 import { UserProvider } from '../contexts/UserContext'
 
-// ggf. UserProvider einfügen von '../contexts/UserContext' (Tutorial Nr. 14)
 
 const RootLayout = () => {
   return (

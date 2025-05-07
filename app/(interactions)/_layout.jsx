@@ -2,7 +2,7 @@ import { Tabs } from 'expo-router'
 import React from 'react'
 import { Colors } from '../../constants/Colors'
 import { Ionicons } from '@expo/vector-icons'
-import ChatButton from '../../components/chatButton'
+import ChatButton from '../../components/ChatButton'
 import ProfileButton from '../../components/ProfileButton'
 
 const InteractionsLayout = () => {
