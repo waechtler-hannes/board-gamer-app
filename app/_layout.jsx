@@ -1,8 +1,7 @@
 import React from 'react'
-import { Stack } from 'expo-router'
 import { StatusBar } from 'react-native'
+import { Stack } from 'expo-router'
 import { UserProvider } from '../contexts/UserContext'
-
 
 const RootLayout = () => {
   return (

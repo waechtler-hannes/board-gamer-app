@@ -1,9 +1,13 @@
-import { StyleSheet, View, Image } from 'react-native'
 import React from 'react'
+import { StyleSheet, View, Image } from 'react-native'
 import { Link } from 'expo-router'
+
+//Konstanten
 import { Colors } from '../constants/Colors'
-import Spacer from '../components/Spacer'
 import Logo from '../assets/img/logo.png'
+
+//Eigene Komponenten
+import Spacer from '../components/Spacer'
 
 const index = () => {
   return (

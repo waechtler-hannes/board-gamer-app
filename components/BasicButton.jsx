@@ -1,31 +1,45 @@
-import React from 'react'
-import { StyleSheet, Text, Pressable } from 'react-native'
-import { Colors } from '../constants/Colors'
+import React from 'react';
+import { StyleSheet, Text, Pressable } from 'react-native';
+import { Colors } from '../constants/Colors';
 
-const BasicButton = ({onPress, title, style}) => {
+const BasicButton = ({ onPress, title, style = {}, theme = 'pink' }) => {
+  const themeBtn = theme === 'white' ? styles.whiteBtn : styles.pinkBtn;
+  const themeText = theme === 'white' ? styles.whiteBtnText : styles.pinkBtnText;
+
   return (
     <Pressable
-      style={({pressed}) => [styles.btn, pressed && styles.pressed, style]}
+      style={({ pressed }) => [themeBtn, pressed && styles.pressed, style]}
       onPress={onPress}
     >
-      <Text style={styles.btnText}>{title}</Text>
+      <Text style={[themeText]}>{title}</Text>
     </Pressable>
-  )
-}
+  );
+};
 
-export default BasicButton
+export default BasicButton;
 
 const styles = StyleSheet.create({
-    btnText: {
-        color: Colors.primaryText
-    },
-    btn: {
-      backgroundColor: Colors.primary,
-      padding: 15,
-      borderRadius: 30,
-      alignItems: "center"
-    },
-    pressed: {
-      opacity: 0.8
-    }
-})
+  pinkBtn: {
+    backgroundColor: Colors.primary,
+    padding: 15,
+    borderRadius: 30,
+    alignItems: 'center'
+  },
+  pinkBtnText: {
+    color: Colors.primaryText
+  },
+  whiteBtn: {
+    backgroundColor: "white",
+    padding: 15,
+    borderRadius: 30,
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: Colors.outline
+  },
+  whiteBtnText: {
+    color: "black"
+  },
+  pressed: {
+    opacity: 0.8
+  }
+});

@@ -1,10 +1,13 @@
-import { Tabs } from 'expo-router'
 import React from 'react'
-import { Colors } from '../../constants/Colors'
+import { Tabs } from 'expo-router'
 import { Ionicons } from '@expo/vector-icons'
+
+//Konstanten
+import { Colors } from '../../constants/Colors'
+
+//Eigene Komponenten
 import ChatButton from '../../components/ChatButton'
 import ProfileButton from '../../components/ProfileButton'
-import { StatusBar } from 'react-native'
 
 const InteractionsLayout = () => {
   return (
