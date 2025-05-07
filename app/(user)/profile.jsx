@@ -3,11 +3,11 @@ import React from 'react'
 import { Colors } from '../../constants/Colors'
 import Spacer from '../../components/Spacer'
 import ProfilePicture from '../../components/ProfilePicture'
-import BasicButton from '../../components/BasicButton'
 import { Link, router } from 'expo-router'
 import CancelButton from '../../components/CancelButton'
 import SubmitButton from '../../components/SubmitButton'
 import { Ionicons } from '@expo/vector-icons'
+import ProfileData from '../../assets/data/ProfileData'
 
 
 
@@ -16,14 +16,14 @@ const Profile = () => {
     <View 
     style={styles.container}>
 
-      <View style={styles.picture} >
+      <View style={styles.picture}>
           <Spacer height={20}/>
-          <ProfilePicture  />
+          <ProfilePicture/>
       </View>
       <Spacer height={20}/>
       <View style={styles.profileBlock}>
           <Text style={styles.blockHeading}>Name</Text>
-          <Text style={styles.profileData}>value.name</Text>
+          <Text style={styles.profileData}>{ProfileData[0].name}</Text>
       </View>
       <View style={styles.profileBlock}>
           <Text style={styles.blockHeading}>E-Mail</Text>

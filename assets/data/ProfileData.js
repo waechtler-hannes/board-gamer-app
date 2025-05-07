@@ -11,3 +11,5 @@ const ProfileData = [
             city: "Hamburg"
         },
     }]
+
+export default ProfileData

@@ -1,13 +1,13 @@
-import { Stack } from 'expo-router'
 import React from 'react'
-import { StatusBar } from 'expo-status-bar'
+import { Stack } from 'expo-router'
+import { StatusBar } from 'react-native'
 
 const RootLayout = () => {
   return (
     <>
-      <StatusBar value="auto" style="light"/>
+      <StatusBar barStyle="light-content" />
       <Stack screenOptions={{ headerShown: false }}></Stack>
-    </> 
+    </>
   )
 }
 

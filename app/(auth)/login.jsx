@@ -1,94 +1,66 @@
-import { TextInput, StyleSheet, Text, View, Image } from 'react-native'
 import React from 'react'
-import { Link, router } from 'expo-router'
-import Spacer from '../../components/Spacer'
+import { TextInput, StyleSheet, Text, View, Image } from 'react-native'
+import { Link } from 'expo-router'
 import { Colors } from '../../constants/Colors'
+
+//Eigene Komponenten
 import BasicButton from '../../components/BasicButton'
+import Spacer from '../../components/Spacer'
 import Logo from '../../assets/img/logo.png'
-
-
-
 
 const Login = () => {
 
-    const handleSubmit = () => {
-        console.log('login form submitted')
-    }
+  const handleSubmit = () => {
+    console.log('login form submitted') //Login-Logik implementieren!
+  }
+
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Login</Text>
-      <Spacer height={20}/>
-      <View style={{alignItems: 'center'}}>
-      <Image source={Logo}/>
+      <Image source={Logo} style={styles.image}/>
+      <View style={styles.input}>
+        <Text>E-Mail-Adresse:</Text>
+        <TextInput style={styles.textInput}></TextInput>
       </View>
       <Spacer height={20}/>
-      <View>
-      <Text style={styles.text}>E-Mail-Adresse</Text>
-      <TextInput style={styles.textinput}/>
-        <Spacer height={5} />
-        <Text style={styles.text}>Neues Passwort</Text>
-        <TextInput style={styles.textinput}/>
+      <View style={styles.input}>
+        <Text>Passwort:</Text>
+        <TextInput style={styles.textInput}></TextInput>
       </View>
       <BasicButton
-        onPress={() => router.push('/profile')} //leitet aktuell zur Profilseite
+        onPress={handleSubmit}
         title="Login"
+        style={{ width: "50%", marginVertical: 50 }}
       />
-      <Spacer height={40}/>
-      <Text style={{textAlign: 'center', flexDirection: 'row'}}>Kein Konto? Hier gehts zur <Link href="/register" style={{color: Colors.primary}} >Registrierung</Link>.</Text>
-
+      <Text>Kein Konto? Hier gehts zur <Link href="/register" style={{color: Colors.primary}} >Registrierung</Link>.</Text>
     </View>
-    
-);
-};
-
+  )
+}
 
 export default Login
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-    },
-    header: {
-        fontSize: 30,
-        fontWeight: 'bold',
-        textAlign: 'center',
-        marginBotton: 30,
-        marginTop: 30,
-    },
-    blockHeading: {
-        fontSize: 14,
-        fontWeight: "bold",
-        marginBottom: 5,
-        marginLeft: 35,
-      },
-
-    text: {
-        marginLeft: 35,
-    },
-    btnText: {
-        color: Colors.primaryText,
-    },
-    btn: {
-      backgroundColor: Colors.primary,
-      padding: 15,
-      marginVertical: 20,
-      marginHorizontal: 80,
-      borderRadius: 30,
-      alignItems: 'center'
-    },
-    pressed: {
-      opacity: 0.8
-    },
-    textinput: {
-        height: 40,
-        borderColor: Colors.outline,
-        borderWidth: 1,
-        width: '80%',
-        marginLeft: 35,
-        backgroundColor: 'white',
-        borderRadius: 8,
-        marginBottom: 5,
-      },
-
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: "center"
+  },
+  header: {
+    fontSize: 30,
+    fontWeight: 'bold',
+    textAlign: 'center'
+  },
+  image: {
+    alignSelf: "center",
+    marginVertical: 30
+  },
+  input: {
+    width: "80%"
+  },
+  textInput: {
+    backgroundColor: 'white',
+    borderWidth: 1,
+    borderRadius: 8,
+    borderColor: Colors.outline
+  }
 })
