@@ -14,7 +14,7 @@ const Events = () => {
       <KeyboardAvoidingView style={styles.keyboardAvoider} behavior="position" keyboardVerticalOffset={100}>
         <ScrollView keyboardShouldPersistTaps='handled' showsVerticalScrollIndicator={false} style={styles.scrollContainer}>
           {EventData.map((value, index) => {
-            return <EventView value={value} key={index} />
+            return <EventView value={value} key={index}/>
           })}
         </ScrollView>
       </KeyboardAvoidingView>
