@@ -1,18 +1,12 @@
-import React from 'react'
 import { Stack } from 'expo-router'
-import { Colors } from '../../constants/Colors'
+import React from 'react'
+import { StatusBar } from 'react-native'
 
-const UserLayout = () => {
+export default function UserLayout() {
   return (
-    <Stack screenOptions={{
-        headerTitleAlign: 'center',
-        headerStyle: {backgroundColor: Colors.primary},
-        headerTintColor: Colors.primaryText
-    }}>
-        <Stack.Screen name="login" options={{ title: 'Login' }}/>
-        <Stack.Screen name="register" options={{ title: 'Registrierung' }}/>
-    </Stack>
+    <>
+      <StatusBar barStyle="dark-content" />
+      <Stack screenOptions={{ headerShown: false }}></Stack>
+    </>
   )
 }
-
-export default UserLayout

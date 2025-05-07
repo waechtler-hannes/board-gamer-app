@@ -1,21 +1,15 @@
-import { Stack } from 'expo-router'
 import React from 'react'
-import { StatusBar } from 'expo-status-bar'
+import { Stack } from 'expo-router'
+import { StatusBar } from 'react-native'
 import { UserProvider } from '../contexts/UserContext'
 
 
 const RootLayout = () => {
   return (
-    <>
     <UserProvider>
-      <StatusBar value="auto" style="light"/>
-      <Stack screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="(interactions)" options={{ headerShown: false }} />
-        <Stack.Screen name="(operations)" options={{ headerShown: false }} />
-        <Stack.Screen name="(user)" options={{ headerShown: false }} />
-      </Stack>
-      </UserProvider>
-    </>
+      <StatusBar barStyle="light-content"/>
+      <Stack screenOptions={{ headerShown: false }}></Stack>
+    </UserProvider>
   )
 }
 

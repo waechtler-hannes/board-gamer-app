@@ -1,9 +1,11 @@
 import { Keyboard, TextInput, Pressable, StyleSheet, Text, View, TouchableWithoutFeedback } from 'react-native'
-import React from 'react'
-import { Link, router } from 'expo-router'
-import Spacer from '../../components/Spacer'
+import React, { useState } from 'react'
+import { Link } from 'expo-router'
 import { Colors } from '../../constants/Colors'
-import {useState} from 'react'
+
+//Eigene Komponenten
+import Spacer from '../../components/Spacer'
+import BasicButton from '../../components/BasicButton'
 
 
 const Register = () => {
@@ -12,46 +14,40 @@ const [password, setPassword] = useState ('')
 
 
     const handleSubmit = () => {
-        console.log('login form submitted', email, password)
+        console.log('register form submitted', email, password)
     }
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
     <View style={styles.container}>
       <Text style={styles.header}>Registrierung</Text>
-      <Spacer height={20}/>
-      <View>
-      <Text style={styles.text}>E-Mail-Adresse</Text>
-      <TextInput 
-        style={styles.textinput} 
-        placeholder="Email" 
-        keyboardType="email-address"
-        onChangeText={setEmail}
-        value={email}/>
-
-        <Spacer height={5} />
-        <Text style={styles.text}>Passwort</Text>
-        <TextInput style={styles.textinput} 
-          placeholder="Password" 
-          onChangeText={setPassword}
-          value={password}
-          secureTextEntry/>
-
-        <Spacer height={5} />
-        <Text style={styles.text}>Neues Passwort bestätigen</Text>
-        <TextInput 
-          style={styles.textinput} 
-          placeholder="Password" 
-          onChangeText={setPassword}
-          value={password}
-          secureTextEntry/>
+      <Spacer/>
+      <View style={styles.input}>
+        <Text>E-Mail-Adresse:</Text>
+        <TextInput
+          style={styles.textInput}
+          placeholder="Email" 
+          keyboardType="email-address"
+          onChangeText={setEmail}
+          value={email}
+        ></TextInput>
       </View>
-
-      <Pressable style={({pressed}) => [styles.btn, pressed && styles.pressed]}>
-      <Text style={styles.btnText}>Registrierung</Text>
-      </Pressable>
-      <Spacer height={40}/>
-      <Text style={{textAlign: 'center', flexDirection: 'row'}}>Du hast bereits ein Konto? Hier geht's zum <Link href="/login" style={{color: Colors.primary}} >Login</Link>.</Text>
-      
+      <Spacer height={15}/>
+      <View style={styles.input}>
+        <Text>Passwort:</Text>
+        <TextInput
+          style={styles.textInput}
+          placeholder="Password" 
+          onChangeText={setPassword}
+          value={password}
+          secureTextEntry
+        ></TextInput>
+      </View>
+      <BasicButton
+        onPress={handleSubmit}
+        title="Registrieren"
+        style={{ width: "50%", marginVertical: 50 }}
+      />
+      <Text>Du hast bereits ein Konto? Hier geht's zum <Link href=".." style={{color: Colors.primary}} >Login</Link>.</Text>
     </View>
     </TouchableWithoutFeedback>
 );
@@ -60,41 +56,23 @@ const [password, setPassword] = useState ('')
 export default Register
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-    },
-    header: {
-        fontSize: 30,
-        fontWeight: 'bold',
-        textAlign: 'center',
-        marginBotton: 30,
-    },
-    text: {
-        marginLeft: 35,
-    },
-    btnText: {
-        color: Colors.primaryText
-    },
-    btn: {
-      backgroundColor: Colors.primary,
-      padding: 15,
-      marginVertical: 20,
-      marginHorizontal: 80,
-      borderRadius: 30,
-      alignItems: 'center'
-    },
-    pressed: {
-      opacity: 0.8
-    },
-    textinput: {
-        height: 40,
-        borderColor: Colors.outline,
-        borderWidth: 1,
-        width: '80%',
-        marginLeft: 35,
-        backgroundColor: 'white',
-        borderRadius: 8,
-        marginBottom: 5,
-      },
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: "center"
+  },
+  header: {
+    fontSize: 30,
+    fontWeight: 'bold',
+    textAlign: 'center'
+  },
+  input: {
+    width: "80%"
+  },
+  textInput: {
+    backgroundColor: 'white',
+    borderWidth: 1,
+    borderRadius: 8,
+    borderColor: Colors.outline
+  }
 })

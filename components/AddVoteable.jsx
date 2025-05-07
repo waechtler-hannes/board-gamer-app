@@ -1,14 +1,16 @@
-import { StyleSheet, Pressable, Text, View, TextInput } from 'react-native'
 import React, { useState } from 'react'
+import { StyleSheet, Pressable, Text, View, TextInput } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
 import { Colors } from '../constants/Colors';
 
 const AddVoteable = () => {
     const [isPressed, setIsPressed] = useState(true);
+    
     function uploadVoteable() {
         //Funktion, um neues Spiel oder Essen in die Datenbank hochzuladen
         setIsPressed(!isPressed)
     }
+
     return (
         <Pressable style={styles.container} onPress={() => {setIsPressed(!isPressed)}}> 
             {isPressed ? (

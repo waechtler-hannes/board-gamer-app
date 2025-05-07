@@ -1,11 +1,11 @@
-import { StyleSheet, Text, Pressable } from 'react-native'
 import React from 'react'
+import { StyleSheet, Text, Pressable } from 'react-native'
 import { Colors } from '../constants/Colors'
 
-const BasicButton = ({onPress, title}) => {
+const BasicButton = ({onPress, title, style}) => {
   return (
     <Pressable
-      style={({pressed}) => [styles.btn, pressed && styles.pressed]}
+      style={({pressed}) => [styles.btn, pressed && styles.pressed, style]}
       onPress={onPress}
     >
       <Text style={styles.btnText}>{title}</Text>
@@ -22,8 +22,6 @@ const styles = StyleSheet.create({
     btn: {
       backgroundColor: Colors.primary,
       padding: 15,
-      marginVertical: 20,
-      marginHorizontal: 80,
       borderRadius: 30,
       alignItems: "center"
     },
