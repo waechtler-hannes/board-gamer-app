@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TextInput, View } from 'react-native'
+import { Keyboard, StyleSheet, Text, TextInput, TouchableWithoutFeedback, View } from 'react-native'
 import React from 'react'
 import { Colors } from '../../constants/Colors'
 import Spacer from '../../components/Spacer'
@@ -13,60 +13,62 @@ import { Ionicons } from '@expo/vector-icons'
 
 const Profile = () => {
   return (
-    <View 
-    style={styles.container}>
 
-      <View style={styles.picture} >
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View 
+        style={styles.container}>
+
+          <View style={styles.picture} >
+              <Spacer height={20}/>
+              <ProfilePicture  />
+          </View>
           <Spacer height={20}/>
-          <ProfilePicture  />
-      </View>
-      <Spacer height={20}/>
-      <View style={styles.profileBlock}>
-          <Text style={styles.blockHeading}>Name</Text>
-          <Text style={styles.profileData}>value.name</Text>
-      </View>
-      <View style={styles.profileBlock}>
-          <Text style={styles.blockHeading}>E-Mail</Text>
-          <Text style={styles.profileData}>value.email</Text> 
-      </View>
-      <Spacer height={20}/>
-      <View style={styles.address}>
-        <Text style={styles.blockHeading}>Adresse</Text>
-        <Spacer height={5} />
-        <Text style={styles.text}>Straße</Text>
-        <TextInput style={styles.textinput}/>
-        <Spacer height={5} />
-        <Text style={styles.text}>Postleitzahl</Text>
-        <TextInput style={styles.textinput}/>
-        <Spacer height={5} />
-        <Text style={styles.text}>Ort</Text>
-        <TextInput style={styles.textinput}/>
-      </View>
+          <View style={styles.profileBlock}>
+              <Text style={styles.blockHeading}>Name</Text>
+              <Text style={styles.profileData}>value.name</Text>
+          </View>
+          <View style={styles.profileBlock}>
+              <Text style={styles.blockHeading}>E-Mail</Text>
+              <Text style={styles.profileData}>value.email</Text> 
+          </View>
+          <Spacer height={20}/>
+          <View style={styles.address}>
+            <Text style={styles.blockHeading}>Adresse</Text>
+            <Spacer height={5} />
+            <Text style={styles.text}>Straße</Text>
+            <TextInput style={styles.textinput}/>
+            <Spacer height={5} />
+            <Text style={styles.text}>Postleitzahl</Text>
+            <TextInput style={styles.textinput}/>
+            <Spacer height={5} />
+            <Text style={styles.text}>Ort</Text>
+            <TextInput style={styles.textinput}/>
+          </View>
 
-      <View style={styles.buttongroup}>
-      <CancelButton
-        onPress={() => router.navigate('../profile')} //Hier ist noch keine richtige Funktion hinterlegt
-        title="Abbrechen"
-      />
+          <View style={styles.buttongroup}>
+          <CancelButton
+            onPress={() => router.navigate('../profile')} //Hier ist noch keine richtige Funktion hinterlegt
+            title="Abbrechen"
+          />
 
-            <SubmitButton
-        onPress={() => router.navigate('../(interactions)/evaluation')} //Hier ist noch keine richtige Funktion hinterlegt
-        title="Speichern"
-      />
-      </View>
+                <SubmitButton
+            onPress={() => router.navigate('../(interactions)/evaluation')} //Hier ist noch keine richtige Funktion hinterlegt
+            title="Speichern"
+          />
+          </View>
 
-      <View style={styles.logoutBlock}>
-      <Ionicons
-          size={24}
-          name="log-out-outline"
-          style={styles.icon}
-          onPress={() => router.navigate('/login')}
-        />
-        <Link style={styles.logout} href="/login">Abmelden</Link>
-      </View>
+          <View style={styles.logoutBlock}>
+          <Ionicons
+              size={24}
+              name="log-out-outline"
+              style={styles.icon}
+              onPress={() => router.navigate('/login')}
+            />
+            <Link style={styles.logout} href="/login">Abmelden</Link>
+          </View>
 
-      </View>
-      
+          </View>
+      </TouchableWithoutFeedback>
       
   )
 }

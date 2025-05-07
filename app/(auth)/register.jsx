@@ -1,23 +1,49 @@
-import { TextInput, Pressable, StyleSheet, Text, View } from 'react-native'
+import { Keyboard, TextInput, Pressable, StyleSheet, Text, View, TouchableWithoutFeedback } from 'react-native'
 import React from 'react'
 import { Link, router } from 'expo-router'
 import Spacer from '../../components/Spacer'
 import { Colors } from '../../constants/Colors'
+import {useState} from 'react'
+
 
 const Register = () => {
+const [email, setEmail] = useState ('')
+const [password, setPassword] = useState ('')
+
+
+    const handleSubmit = () => {
+        console.log('login form submitted', email, password)
+    }
   return (
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
     <View style={styles.container}>
       <Text style={styles.header}>Registrierung</Text>
       <Spacer height={20}/>
       <View>
       <Text style={styles.text}>E-Mail-Adresse</Text>
-      <TextInput style={styles.textinput}/>
+      <TextInput 
+        style={styles.textinput} 
+        placeholder="Email" 
+        keyboardType="email-address"
+        onChangeText={setEmail}
+        value={email}/>
+
         <Spacer height={5} />
         <Text style={styles.text}>Passwort</Text>
-        <TextInput style={styles.textinput}/>
+        <TextInput style={styles.textinput} 
+          placeholder="Password" 
+          onChangeText={setPassword}
+          value={password}
+          secureTextEntry/>
+
         <Spacer height={5} />
         <Text style={styles.text}>Neues Passwort bestätigen</Text>
-        <TextInput style={styles.textinput}/>
+        <TextInput 
+          style={styles.textinput} 
+          placeholder="Password" 
+          onChangeText={setPassword}
+          value={password}
+          secureTextEntry/>
       </View>
 
       <Pressable style={({pressed}) => [styles.btn, pressed && styles.pressed]}>
@@ -27,8 +53,9 @@ const Register = () => {
       <Text style={{textAlign: 'center', flexDirection: 'row'}}>Du hast bereits ein Konto? Hier geht's zum <Link href="/login" style={{color: Colors.primary}} >Login</Link>.</Text>
       
     </View>
-  )
-}
+    </TouchableWithoutFeedback>
+);
+};
 
 export default Register
 

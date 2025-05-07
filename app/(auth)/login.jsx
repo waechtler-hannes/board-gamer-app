@@ -1,20 +1,28 @@
-import { TextInput, StyleSheet, Text, View, Image } from 'react-native'
+import { Keyboard, TextInput, StyleSheet, Text, View, Image, TouchableWithoutFeedback } from 'react-native'
 import React from 'react'
 import { Link, router } from 'expo-router'
 import Spacer from '../../components/Spacer'
 import { Colors } from '../../constants/Colors'
 import BasicButton from '../../components/BasicButton'
 import Logo from '../../assets/img/logo.png'
-
+import {useState} from 'react'
+import {useUser} from '../../hooks/useUser'
 
 
 
 const Login = () => {
+const [email, setEmail] = useState ('')
+const [password, setPassword] = useState ('')
+
+const { user } = useUser()
 
     const handleSubmit = () => {
-        console.log('login form submitted')
+      console.log('current user:', user)  
+      console.log('login form submitted', email, password)
+
     }
   return (
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
     <View style={styles.container}>
       <Text style={styles.header}>Login</Text>
       <Spacer height={20}/>
@@ -22,22 +30,33 @@ const Login = () => {
       <Image source={Logo}/>
       </View>
       <Spacer height={20}/>
+
       <View>
       <Text style={styles.text}>E-Mail-Adresse</Text>
-      <TextInput style={styles.textinput}/>
+      <TextInput 
+        style={styles.textinput} 
+        placeholder="Email" 
+        keyboardType="email-address"
+        onChangeText={setEmail}
+        value={email}/>
+
         <Spacer height={5} />
-        <Text style={styles.text}>Neues Passwort</Text>
-        <TextInput style={styles.textinput}/>
+        <Text style={styles.text}>Passwort</Text>
+        <TextInput  style={styles.textinput} 
+        placeholder="Password" 
+        onChangeText={setPassword}
+        value={password}
+        secureTextEntry/>
       </View>
       <BasicButton
-        onPress={() => router.push('/profile')} //leitet aktuell zur Profilseite
+        onPress={handleSubmit} //leitet aktuell zur Profilseite
         title="Login"
       />
       <Spacer height={40}/>
       <Text style={{textAlign: 'center', flexDirection: 'row'}}>Kein Konto? Hier gehts zur <Link href="/register" style={{color: Colors.primary}} >Registrierung</Link>.</Text>
 
     </View>
-    
+    </TouchableWithoutFeedback>
 );
 };
 
@@ -89,6 +108,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         borderRadius: 8,
         marginBottom: 5,
+        marginTop: 5,
       },
 
 })
