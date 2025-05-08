@@ -6,7 +6,7 @@ import { Ionicons } from '@expo/vector-icons'
 import { Colors } from '../../constants/Colors'
 
 //Eigene Komponenten
-import ChatButton from '../../components/ChatButton'
+import ChatButton from '../../components/chatButton'
 import ProfileButton from '../../components/ProfileButton'
 
 const InteractionsLayout = () => {

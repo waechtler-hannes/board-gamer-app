@@ -15,13 +15,16 @@ const Register = () => {
 
   const [email, setEmail] = useState ('')
   const [password, setPassword] = useState ('')
+  const [error, setError] = useState(null)
+
   const { register } = useUser()
 
   const handleSubmit = async () => {
-      try {
+    setError(null)  
+    try {
         await register(email, password)
       } catch (error) {
-        
+        setError(error.message)
       }
   }
 
@@ -54,6 +57,8 @@ const Register = () => {
             title="Registrieren"
             style={{ width: "50%", marginVertical: 30 }}
           />
+          <Spacer/>
+          {error && <Text style={styles.error}>{error}</Text>}
         </KeyboardAvoidingView>
         <Text style={styles.link}>Du hast bereits ein Konto? Hier geht's zum <Link href=".." style={{color: Colors.primary}} >Login</Link>.</Text>
 
@@ -84,5 +89,16 @@ const styles = StyleSheet.create({
   },
   link: {
     marginTop: 50
+  },
+  error: {
+    color: Colors.error,
+    padding: 10,
+    backgroundColor: '#f5c1c8',
+    borderColor: Colors.error,
+    borderWidth: 1,
+    borderRadius: 6,
+    marginHorizontal: 10,
+    marginLeft: 35,
+    marginRight: 35,
   }
 })

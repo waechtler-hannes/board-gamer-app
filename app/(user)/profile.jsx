@@ -9,8 +9,11 @@ import { Colors } from '../../constants/Colors'
 //Eigene Komponenten
 import BasicButton from '../../components/BasicButton'
 import ProfileData from '../../assets/data/ProfileData'
+import { useUser } from '../../hooks/useUser'
 
 const Profile = () => {
+  const { logout, user } = useUser()
+
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.container}>
@@ -23,12 +26,13 @@ const Profile = () => {
         
         <View style={styles.contentSection}>
             <Text style={styles.heading}>Name</Text>
+            //Name von user.name beziehen?
             <Text style={styles.data}>{ProfileData[0].name}</Text>
         </View>
 
         <View style={styles.contentSection}>
             <Text style={styles.heading}>Email</Text>
-            <Text style={styles.data}>{ProfileData[0].email}</Text>
+            <Text style={styles.data}>{user.email}</Text>
         </View>
 
         <View style={styles.addressSection}>
@@ -59,15 +63,20 @@ const Profile = () => {
           />
         </View>
 
-        <View style={styles.logoutBlock}>
+        <View style={styles.logoutBlock} onPress={logout}>
           <Ionicons
               size={24}
               name="log-out-outline"
               color={Colors.error}
-              onPress={() => router.navigate('/login')}
             />
-          <Link style={styles.logout} href="/login">Abmelden</Link>
+          <Text style={styles.logout}>Abmelden</Text>
         </View>
+
+        <BasicButton
+            onPress={logout}
+            title="Logout"
+            style={{ width: "50%", marginVertical: 30 }}
+        /> 
 
       </View>
     </TouchableWithoutFeedback>
