@@ -24,10 +24,17 @@
     "react-native-safe-area-context": "^5.4.0",
     "react-native-screens": "^4.10.0",
     "react-native-url-polyfill": "^2.0.0",
-    "react-native-vector-icons": "^10.2.0"
+    "react-native-vector-icons": "^10.2.0",
+    "react-native-webview": "^13.13.5"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"
+  },
+  "overrides": {
+    "react-native-appwrite": {
+      "expo-file-system": "18.*.*",
+      "react-native": ">=0.76.7 <1.0.0"
+    }
   },
   "private": true
 }
