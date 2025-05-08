@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Keyboard, TextInput, StyleSheet, Text, View, Image, TouchableWithoutFeedback } from 'react-native'
+import { Keyboard, TextInput, StyleSheet, Text, View, Image, TouchableWithoutFeedback, KeyboardAvoidingView } from 'react-native'
 import { Link } from 'expo-router'
 import { useUser } from '../../hooks/useUser'
 
@@ -15,11 +15,14 @@ const Login = () => {
 
   const [email, setEmail] = useState ('')
   const [password, setPassword] = useState ('')
-  const { user } = useUser()
+  const { login } = useUser()
 
-  const handleSubmit = () => {
-    console.log('current user:', user)  
-    console.log('login form submitted', email, password)
+  const handleSubmit = async () => {
+    try {
+      await login(email, password)
+    } catch (error) {
+      
+    }
   }
 
   return (
@@ -30,8 +33,7 @@ const Login = () => {
 
         <Image source={Logo} style={styles.image}/>
 
-        <View style={styles.input}>
-          <Text>E-Mail-Adresse:</Text>
+        <KeyboardAvoidingView behavior='padding' style={{width: "100%", alignItems: "center"}}>
           <TextInput
             style={styles.textInput}
             placeholder="Email" 
@@ -39,12 +41,7 @@ const Login = () => {
             onChangeText={setEmail}
             value={email}
           />
-        </View>
-
-        <Spacer height={20}/>
-
-        <View style={styles.input}>
-          <Text>Passwort:</Text>
+          <Spacer height={20}/>
           <TextInput
             style={styles.textInput} 
             placeholder="Passwort" 
@@ -52,15 +49,14 @@ const Login = () => {
             value={password}
             secureTextEntry
           />
-        </View>
+          <BasicButton
+            onPress={handleSubmit}
+            title="Login"
+            style={{ width: "50%", marginVertical: 30 }}
+          />
+        </KeyboardAvoidingView>
 
-        <BasicButton
-          onPress={handleSubmit}
-          title="Login"
-          style={{ width: "50%", marginVertical: 50 }}
-        />
-
-        <Text>Kein Konto? Hier gehts zur <Link href="/register" style={{color: Colors.primary}} >Registrierung</Link>.</Text>
+        <Text style={styles.link}>Kein Konto? Hier gehts zur <Link href="/register" style={{color: Colors.primary}} >Registrierung</Link>.</Text>
 
       </View>
     </TouchableWithoutFeedback>
@@ -82,15 +78,18 @@ const styles = StyleSheet.create({
   },
   image: {
     alignSelf: "center",
-    marginVertical: 30
-  },
-  input: {
-    width: "80%"
+    marginVertical: 30,
+    height: 150,
+    aspectRatio: 1
   },
   textInput: {
     backgroundColor: 'white',
+    width: "80%",
     borderWidth: 1,
     borderRadius: 8,
     borderColor: Colors.outline
+  },
+  link: {
+    marginTop: 50
   }
 })

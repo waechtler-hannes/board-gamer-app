@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
-import { Keyboard, TextInput, StyleSheet, Text, View, TouchableWithoutFeedback } from 'react-native'
+import { Keyboard, TextInput, StyleSheet, Text, View, TouchableWithoutFeedback, KeyboardAvoidingView } from 'react-native'
 import { Link } from 'expo-router'
+import { useUser } from '../../hooks/useUser'
 
 //Konstanten
 import { Colors } from '../../constants/Colors'
@@ -14,9 +15,14 @@ const Register = () => {
 
   const [email, setEmail] = useState ('')
   const [password, setPassword] = useState ('')
+  const { register } = useUser()
 
-  const handleSubmit = () => {
-      console.log('register form submitted', email, password)
+  const handleSubmit = async () => {
+      try {
+        await register(email, password)
+      } catch (error) {
+        
+      }
   }
 
   return (
@@ -27,8 +33,7 @@ const Register = () => {
 
         <Spacer/>
         
-        <View style={styles.input}>
-          <Text>E-Mail-Adresse:</Text>
+        <KeyboardAvoidingView behavior='padding' style={{width: "100%", alignItems: "center"}}>
           <TextInput
             style={styles.textInput}
             placeholder="Email" 
@@ -36,28 +41,21 @@ const Register = () => {
             onChangeText={setEmail}
             value={email}
           />
-        </View>
-        
-        <Spacer height={15}/>
-        
-        <View style={styles.input}>
-          <Text>Passwort:</Text>
+          <Spacer height={15}/>
           <TextInput
             style={styles.textInput}
-            placeholder="Password" 
+            placeholder="Passwort" 
             onChangeText={setPassword}
             value={password}
             secureTextEntry
           />
-        </View>
-        
-        <BasicButton
-          onPress={handleSubmit}
-          title="Registrieren"
-          style={{ width: "50%", marginVertical: 50 }}
-        />
-        
-        <Text>Du hast bereits ein Konto? Hier geht's zum <Link href=".." style={{color: Colors.primary}} >Login</Link>.</Text>
+          <BasicButton
+            onPress={handleSubmit}
+            title="Registrieren"
+            style={{ width: "50%", marginVertical: 30 }}
+          />
+        </KeyboardAvoidingView>
+        <Text style={styles.link}>Du hast bereits ein Konto? Hier geht's zum <Link href=".." style={{color: Colors.primary}} >Login</Link>.</Text>
 
       </View>
     </TouchableWithoutFeedback>
@@ -77,13 +75,14 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center'
   },
-  input: {
-    width: "80%"
-  },
   textInput: {
     backgroundColor: 'white',
     borderWidth: 1,
+    width: "80%",	
     borderRadius: 8,
     borderColor: Colors.outline
+  },
+  link: {
+    marginTop: 50
   }
 })
