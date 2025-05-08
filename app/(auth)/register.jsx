@@ -1,0 +1,88 @@
+import React, { useState } from 'react'
+import { Keyboard, TextInput, StyleSheet, Text, View, TouchableWithoutFeedback, KeyboardAvoidingView } from 'react-native'
+import { Link } from 'expo-router'
+import { useUser } from '../../hooks/useUser'
+
+//Konstanten
+import { Colors } from '../../constants/Colors'
+
+//Eigene Komponenten
+import Spacer from '../../components/Spacer'
+import BasicButton from '../../components/BasicButton'
+
+
+const Register = () => {
+
+  const [email, setEmail] = useState ('')
+  const [password, setPassword] = useState ('')
+  const { register } = useUser()
+
+  const handleSubmit = async () => {
+      try {
+        await register(email, password)
+      } catch (error) {
+        
+      }
+  }
+
+  return (
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <View style={styles.container}>
+
+        <Text style={styles.header}>Registrierung</Text>
+
+        <Spacer/>
+        
+        <KeyboardAvoidingView behavior='padding' style={{width: "100%", alignItems: "center"}}>
+          <TextInput
+            style={styles.textInput}
+            placeholder="Email" 
+            keyboardType="email-address"
+            onChangeText={setEmail}
+            value={email}
+          />
+          <Spacer height={15}/>
+          <TextInput
+            style={styles.textInput}
+            placeholder="Passwort" 
+            onChangeText={setPassword}
+            value={password}
+            secureTextEntry
+          />
+          <BasicButton
+            onPress={handleSubmit}
+            title="Registrieren"
+            style={{ width: "50%", marginVertical: 30 }}
+          />
+        </KeyboardAvoidingView>
+        <Text style={styles.link}>Du hast bereits ein Konto? Hier geht's zum <Link href=".." style={{color: Colors.primary}} >Login</Link>.</Text>
+
+      </View>
+    </TouchableWithoutFeedback>
+  );
+};
+
+export default Register
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: "center"
+  },
+  header: {
+    fontSize: 30,
+    fontWeight: 'bold',
+    textAlign: 'center'
+  },
+  textInput: {
+    backgroundColor: 'white',
+    borderWidth: 1,
+    width: "80%",	
+    borderRadius: 8,
+    borderColor: Colors.outline
+  },
+  link: {
+    marginTop: 50
+  }
+})
