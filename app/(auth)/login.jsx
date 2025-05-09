@@ -15,11 +15,13 @@ const Login = () => {
 
   const [email, setEmail] = useState ('')
   const [password, setPassword] = useState ('')
-  const [error, setError] = useState (null)
+  const [error, setError] = useState(null)
+
   const { login } = useUser()
 
   const handleSubmit = async () => {
     setError(null)
+
     try {
       await login(email, password)
     } catch (error) {
@@ -60,6 +62,7 @@ const Login = () => {
         </KeyboardAvoidingView>
 
         <Text style={styles.link}>Kein Konto? Hier gehts zur <Link href="/register" style={{color: Colors.primary}} >Registrierung</Link>.</Text>
+        <Spacer/>
 
       </View>
     </TouchableWithoutFeedback>

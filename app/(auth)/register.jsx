@@ -15,16 +15,17 @@ const Register = () => {
 
   const [email, setEmail] = useState ('')
   const [password, setPassword] = useState ('')
-  const [error, setError] = useState (null)
+  const [error, setError] = useState(null)
+
   const { register } = useUser()
 
   const handleSubmit = async () => {
-    setError(null)
+    setError(null)  
     try {
-      await register(email, password)
-    } catch (error) {
-      setError(error.message)
-    }
+        await register(email, password)
+      } catch (error) {
+        setError(error.message)
+      }
   }
 
   return (
