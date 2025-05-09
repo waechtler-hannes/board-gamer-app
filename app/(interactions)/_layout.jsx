@@ -8,10 +8,11 @@ import { Colors } from '../../constants/Colors'
 //Eigene Komponenten
 import ChatButton from '../../components/ChatButton'
 import ProfileButton from '../../components/ProfileButton'
+import UserOnly from '../../components/auth/UserOnly'
 
 const InteractionsLayout = () => {
   return (
-    <>
+    <UserOnly>
       <Tabs
         screenOptions={{
           headerTitleAlign: "center",
@@ -57,7 +58,7 @@ const InteractionsLayout = () => {
           ) }}
         />
       </Tabs>
-    </>
+    </UserOnly>
   )
 }
 

@@ -15,13 +15,15 @@ const Login = () => {
 
   const [email, setEmail] = useState ('')
   const [password, setPassword] = useState ('')
+  const [error, setError] = useState (null)
   const { login } = useUser()
 
   const handleSubmit = async () => {
+    setError(null)
     try {
       await login(email, password)
     } catch (error) {
-      
+      setError(error.message)
     }
   }
 
@@ -54,6 +56,7 @@ const Login = () => {
             title="Login"
             style={{ width: "50%", marginVertical: 30 }}
           />
+          {error && <Text style={styles.error}>{error}</Text>}
         </KeyboardAvoidingView>
 
         <Text style={styles.link}>Kein Konto? Hier gehts zur <Link href="/register" style={{color: Colors.primary}} >Registrierung</Link>.</Text>
@@ -91,5 +94,14 @@ const styles = StyleSheet.create({
   },
   link: {
     marginTop: 50
+  },
+  error: {
+    color: Colors.error,
+    backgroundColor: Colors.errorContainer,
+    padding: 10,
+    borderWidth: 1,
+    borderColor: Colors.error,
+    borderRadius: 8,
+    marginHorizontal: 10
   }
 })

@@ -1,7 +1,8 @@
 import React from 'react'
-import { Keyboard, StyleSheet, Text, TextInput, TouchableWithoutFeedback, View } from 'react-native'
+import { Keyboard, StyleSheet, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native'
 import { Link, router } from 'expo-router'
 import { Ionicons } from '@expo/vector-icons'
+import { useUser } from '../../hooks/useUser'
 
 //Konstanten
 import { Colors } from '../../constants/Colors'
@@ -11,6 +12,9 @@ import BasicButton from '../../components/BasicButton'
 import ProfileData from '../../assets/data/ProfileData'
 
 const Profile = () => {
+
+  const { logout, user } = useUser()
+
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.container}>
@@ -28,7 +32,7 @@ const Profile = () => {
 
         <View style={styles.contentSection}>
             <Text style={styles.heading}>Email</Text>
-            <Text style={styles.data}>{ProfileData[0].email}</Text>
+            <Text style={styles.data}>{user.email}</Text>
         </View>
 
         <View style={styles.addressSection}>
@@ -59,15 +63,14 @@ const Profile = () => {
           />
         </View>
 
-        <View style={styles.logoutBlock}>
+        <TouchableOpacity style={styles.logoutBlock} onPress={logout}>
           <Ionicons
-              size={24}
-              name="log-out-outline"
-              color={Colors.error}
-              onPress={() => router.navigate('/login')}
-            />
-          <Link style={styles.logout} href="/login">Abmelden</Link>
-        </View>
+            size={24}
+            name="log-out-outline"
+            color={Colors.error}
+          />
+          <Text style={styles.logout}>Abmelden</Text>
+        </TouchableOpacity>
 
       </View>
     </TouchableWithoutFeedback>
