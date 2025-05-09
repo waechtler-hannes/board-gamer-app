@@ -1,6 +1,6 @@
 import React from 'react'
 import { Keyboard, StyleSheet, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native'
-import { Link, router } from 'expo-router'
+import { router } from 'expo-router'
 import { Ionicons } from '@expo/vector-icons'
 import { useUser } from '../../hooks/useUser'
 
@@ -10,7 +10,6 @@ import { Colors } from '../../constants/Colors'
 //Eigene Komponenten
 import BasicButton from '../../components/BasicButton'
 import ProfileData from '../../assets/data/ProfileData'
-import { useUser } from '../../hooks/useUser'
 
 const Profile = () => {
 
@@ -28,7 +27,6 @@ const Profile = () => {
         
         <View style={styles.contentSection}>
             <Text style={styles.heading}>Name</Text>
-            //Name von user.name beziehen?
             <Text style={styles.data}>{ProfileData[0].name}</Text>
         </View>
 
@@ -73,12 +71,6 @@ const Profile = () => {
           />
           <Text style={styles.logout}>Abmelden</Text>
         </TouchableOpacity>
-
-        <BasicButton
-            onPress={logout}
-            title="Logout"
-            style={{ width: "50%", marginVertical: 30 }}
-        /> 
 
       </View>
     </TouchableWithoutFeedback>

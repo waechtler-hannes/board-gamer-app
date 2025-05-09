@@ -6,7 +6,7 @@ import { Ionicons } from '@expo/vector-icons'
 import { Colors } from '../../constants/Colors'
 
 //Eigene Komponenten
-import ChatButton from '../../components/chatButton'
+import ChatButton from '../../components/ChatButton'
 import ProfileButton from '../../components/ProfileButton'
 import UserOnly from '../../components/auth/UserOnly'
 
