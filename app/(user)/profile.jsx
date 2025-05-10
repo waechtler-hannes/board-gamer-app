@@ -1,26 +1,31 @@
 import React from 'react'
+import { useState } from 'react'
 import { Keyboard, StyleSheet, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native'
 import { router } from 'expo-router'
 import { Ionicons } from '@expo/vector-icons'
 import { useUser } from '../../hooks/useUser'
+import { AdvancedCheckbox } from 'react-native-advanced-checkbox'
 
 //Konstanten
 import { Colors } from '../../constants/Colors'
 
 //Eigene Komponenten
 import BasicButton from '../../components/BasicButton'
-import ProfileData from '../../assets/data/ProfileData'
 import UserInitialCircle from '../../components/UserInitialCircle'
+import Spacer from '../../components/Spacer'
 
 const Profile = () => {
 
   const { logout, user } = useUser()
+  const [checked, setChecked] = useState(false);
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.container}>
 
-        <UserInitialCircle/>
+      <Spacer height={5}/>
+      <UserInitialCircle/>
+      <Spacer height={5}/>
 
       <View style={styles.contentSection}>
             <Text style={styles.heading}>Name</Text>
@@ -46,6 +51,15 @@ const Profile = () => {
             <Text style={styles.text}>Ort</Text>
             <TextInput style={styles.textInput}/>
           </View>
+
+          <AdvancedCheckbox
+            value={checked}
+            onValueChange={setChecked}
+            label="Adresse ist für andere sichtbar"
+            checkedColor={Colors.primary}
+            uncheckedColor="#ccc"
+            size={14}
+          />
         </View>
 
         <View style={styles.buttongroup}>
@@ -106,7 +120,7 @@ const styles = StyleSheet.create({
     gap: 7
   },
   textInput: {
-    marginTop: 7,
+    marginTop: 0,
     height: 40,
     borderColor: Colors.outline,
     borderWidth: 1,

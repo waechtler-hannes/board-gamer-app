@@ -14,6 +14,7 @@ import BasicButton from '../../components/BasicButton'
 const Register = () => {
 
   const [email, setEmail] = useState ('')
+  const [name, setName] = useState ('')
   const [password, setPassword] = useState ('')
   const [error, setError] = useState(null)
 
@@ -22,7 +23,7 @@ const Register = () => {
   const handleSubmit = async () => {
     setError(null)  
     try {
-        await register(email, password)
+        await register(email, name, password)
       } catch (error) {
         setError(error.message)
       }
@@ -43,6 +44,13 @@ const Register = () => {
             keyboardType="email-address"
             onChangeText={setEmail}
             value={email}
+          />
+          <Spacer height={15}/>
+          <TextInput
+            style={styles.textInput}
+            placeholder="Name" 
+            onChangeText={setName}
+            value={name}
           />
           <Spacer height={15}/>
           <TextInput
