@@ -10,6 +10,7 @@ import { Colors } from '../../constants/Colors'
 //Eigene Komponenten
 import BasicButton from '../../components/BasicButton'
 import ProfileData from '../../assets/data/ProfileData'
+import UserInitialCircle from '../../components/UserInitialCircle'
 
 const Profile = () => {
 
@@ -19,15 +20,11 @@ const Profile = () => {
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.container}>
 
-        <Ionicons
-          size={150}
-          name="person-circle-outline"
-          color={Colors.primary}
-        />
-        
-        <View style={styles.contentSection}>
+        <UserInitialCircle/>
+
+      <View style={styles.contentSection}>
             <Text style={styles.heading}>Name</Text>
-            <Text style={styles.data}>{ProfileData[0].name}</Text>
+            <Text style={styles.data}>{user.name}</Text>
         </View>
 
         <View style={styles.contentSection}>
