@@ -1,7 +1,8 @@
 import React from 'react'
 import { Keyboard, StyleSheet, Text, ScrollView, TextInput, KeyboardAvoidingView, TouchableWithoutFeedback, View } from 'react-native'
 import { router } from 'expo-router'
-import { CheckboxGroup, AdvancedCheckbox } from 'react-native-advanced-checkbox'
+import { Dropdown } from 'react-native-element-dropdown'
+import { AdvancedCheckbox } from 'react-native-advanced-checkbox'
 import { useState } from 'react'
 
 
@@ -16,6 +17,15 @@ const Create = () => {
   const [checkedEating, setCheckedEating] = useState(false);
   const [checkedGames, setCheckedGames] = useState(false);
 
+  const hostData = [
+    { label: 'Max Mustermann', value: 'max' },
+    { label: 'Erika Mustermann', value: 'erika' },
+    { label: 'Hans Müller', value: 'hans' },
+  ];
+
+    const [value, setValue] = useState(null);
+    const [isFocus, setIsFocus] = useState(false);
+
   return (
 <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
  <ScrollView keyboardShouldPersistTaps='handled' showsVerticalScrollIndicator={false} style={styles.scrollContainer}>
@@ -26,13 +36,31 @@ const Create = () => {
         <KeyboardAvoidingView behavior='padding' style={{width: "100%", alignItems: "center"}}>
       <View style={styles.editSection}>
             <Text style={styles.heading}>Datum</Text>
-            <TextInput style={styles.textInput} marginTop={0}/>
+            <TextInput style={styles.textInput} marginTop={0} defaultValue="02.06.2025"/>
 
             <Text style={styles.heading}>Uhrzeit</Text>
-            <TextInput style={styles.textInput} marginTop={0}/>
+            <TextInput style={styles.textInput} marginTop={0} defaultValue="19:00 Uhr"/>
 
             <Text style={styles.heading}>Host</Text>
-            <TextInput style={styles.textInput} marginTop={0}/>
+                <Dropdown
+                  style={[styles.textInput, isFocus && { borderColor: Colors.primary }]}
+                  itemTextStyle={{ fontSize: 14}}
+                  selectedTextStyle={{ fontSize: 14}}
+                  data={hostData}
+                  maxHeight={300}
+                  labelField="label"
+                  valueField="value"
+                  placeholder={!isFocus ? 'Host auswählen' : '...'} // Platzhalter ausfüllen mit Host, der an der Reihe ist
+                  placeholderStyle={{ fontSize: 14}}
+                  padding={10}
+                  value={value}
+                  onFocus={() => setIsFocus(true)}
+                  onBlur={() => setIsFocus(false)}
+                  onChange={item => {
+                    setValue(item.value);
+                    setIsFocus(false);
+                  }}
+                    />
 
             <Text style={styles.heading}>Ort</Text>
             <TextInput height={20} style={styles.textInput} backgroundColor={Colors.primaryContainer} opacity={0.6} padding={10} value={'Musterstr. 1, 00000 Musterstadt'}/> 
@@ -48,7 +76,7 @@ const Create = () => {
             onValueChange={setCheckedGames}
             label="Spielvorschläge erlauben"
             checkedColor={Colors.primary}
-            uncheckedColor="#ccc"
+            uncheckedColor={Colors.outline}
             size={14}
           />
 
@@ -57,11 +85,10 @@ const Create = () => {
             onValueChange={setCheckedEating}
             label="Essensvorschläge erlauben"
             checkedColor={Colors.primary}
-            uncheckedColor="#ccc"
+            uncheckedColor={Colors.outline}
             size={14}
           />
         </View>
-
 
         <View style={styles.buttongroup}>
           <BasicButton
@@ -93,11 +120,11 @@ const styles = StyleSheet.create({
     marginBottom: 50,
     padding: 20,
     borderWidth: 1,
-    borderRadius: 10
+    borderRadius: 10,
   },
   contentSection: {
     flexDirection: "row",
-    width: '80%'
+    width: '80%',
   },
   heading: {
     fontSize: 14,
@@ -115,7 +142,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     backgroundColor: 'white',
     borderRadius: 8,
-    marginBottom: 5
+    marginBottom: 5,
+    padding: 10,
   },
   text: {
     color: Colors.Text,
@@ -128,28 +156,15 @@ const styles = StyleSheet.create({
     gap: 15,
     justifyContent: "flex-end"
   },
-  logoutBlock: {
-    flexDirection: "row",
-    borderTopWidth: 1,
-    borderColor: Colors.outline,
-    paddingTop: 8,
-    paddingHorizontal: 24,
-    alignItems: 'center',
-    gap: 5,
-    marginTop: 20
-  },
-  logout:  {
-    color: Colors.error,
-    fontSize: 18
-  },
   editSection: {
     flexDirection: "column",
-    width: '80%',
-    gap: 5
+    width: '90%',
+    gap: 5,
+    flex: 1,
   },
   checkBox: {
     flexDirection: "column",
-    width: '80%',
-    marginTop: 10
-  }
+    width: '90%',
+    marginTop: 5,
+  },
 })

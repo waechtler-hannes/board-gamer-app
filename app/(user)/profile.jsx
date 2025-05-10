@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
   },
   contentSection: {
     flexDirection: "row",
-    width: '80%'
+    width: '90%'
   },
   heading: {
     fontSize: 14,
@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
   },
   addressSection: {
     flexDirection: "column",
-    width: '80%',
+    width: '90%',
     gap: 7
   },
   textInput: {
@@ -144,7 +144,7 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     borderColor: Colors.outline,
     paddingTop: 8,
-    paddingHorizontal: 24,
+    paddingHorizontal: 110,
     alignItems: 'center',
     gap: 5,
     marginTop: 20
