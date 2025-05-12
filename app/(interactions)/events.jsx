@@ -9,11 +9,18 @@ import EventData from '../../assets/data/EventData'
 import EventView from '../../components/EventView'
 
 const Events = () => {
+  const currentDate = new Date();
+
+  const futureEvents = EventData.filter(event => {
+    const eventDate = new Date(event.date);
+    return eventDate > currentDate;
+  });
+
   return (
     <View style={styles.container}>
       <KeyboardAvoidingView style={styles.keyboardAvoider} behavior="position" keyboardVerticalOffset={100}>
         <ScrollView keyboardShouldPersistTaps='handled' showsVerticalScrollIndicator={false} style={styles.scrollContainer}>
-          {EventData.map((value, index) => {
+          {futureEvents.map((value, index) => {
             return <EventView value={value} key={index}/>
           })}
         </ScrollView>

@@ -57,7 +57,7 @@ const Profile = () => {
             onValueChange={setChecked}
             label="Adresse ist für andere sichtbar"
             checkedColor={Colors.primary}
-            uncheckedColor="#ccc"
+            uncheckedColor={Colors.outline}
             size={14}
           />
         </View>

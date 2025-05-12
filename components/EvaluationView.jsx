@@ -1,15 +1,14 @@
-import { Linking, Pressable, StyleSheet, Text, View } from 'react-native'
+import { Linking, Pressable, StyleSheet, Text, View, TextInput } from 'react-native'
 import React from 'react'
 import { Ionicons } from '@expo/vector-icons'
 import { Colors } from '../constants/Colors'
 import Animated, { Extrapolation, interpolate, measure, runOnUI, useAnimatedRef, useAnimatedStyle, useDerivedValue, useSharedValue, withTiming } from 'react-native-reanimated';
 import { router } from 'expo-router';
-import VoteSection from './VoteSection';
-import AddVoteableButton from './AddVoteable';
 
 //Eigene Komponenten
+import BasicButton from '../components/BasicButton'
 import HostIconCircle from '../components/HostIconCircle'
-
+import Spacer from '../components/Spacer'
 
 const EventView = ({value}) => {
   const listRef = useAnimatedRef();
@@ -38,57 +37,59 @@ const EventView = ({value}) => {
           open.value = !open.value;
         }}
       >
+
         <HostIconCircle 
             style={styles.headProfileIcon} 
            />
+          
         <View style={styles.headContent}>
           <Text style={styles.headDate}>{value.date}</Text>
           <Text>{value.host}</Text>
         </View>
-        {value.editable && <Ionicons
-          size={24}
-          name="create"
-          style={styles.icon}
-          onPress={() => router.navigate('/edit')}
-        />}
+        {value.editable && (
+          <Ionicons
+            size={24}
+            name="star-half-outline"
+            style={styles.icon}
+          />
+        )}
       </Pressable>
       <Animated.View style={heightAnimationStyle}>
         <Animated.View ref={listRef} style={styles.contentContainer}>
-          <View style={styles.mainContent}>
-            <View style={styles.block}>
-              <Text style={styles.blockHeading}>Beschreibung</Text>
-              <Text>{value.description}</Text>
-            </View>
-            <View style={styles.block}>
-              <View style={styles.row}>
-                <View>
-                  <Text style={styles.blockHeading}>Ort</Text>
-                  <Text>
-                    {value.location.street} {value.location.housenumber}, {value.location.postalcode} {value.location.city}
-                  </Text>                  
+            <View style={styles.mainContent}>
+                <View style={styles.block}>
+                    <Spacer height={15}/>
+                <Text style={styles.blockHeading}>Wie hat dir der Abend gefallen?</Text>
+                <Text>Bitte bewerte das Essen, den Gastgeber sowie die allgemeine Stimmung des Abends: </Text>
                 </View>
-                <Ionicons
-                  onPress={() => Linking.openURL(`https://www.google.com/maps/search/?api=1&query=${value.location.street}+${value.location.housenumber}+${value.location.postalcode}+${value.location.city}`)}
-                  name="map"
-                  size={24}
-                  style={styles.icon}
-                />
-              </View>
-            </View>
-            <View style={styles.block}>
-              <Text style={styles.blockHeading}>Spiel</Text>
-              <VoteSection value={value.games}/>
-              <AddVoteableButton></AddVoteableButton>
-            </View>
-            <View style={styles.block}>
+
+            <Spacer height={10}/>
+            <View style={styles.evaluation}>
               <Text style={styles.blockHeading}>Essen</Text>
-              <VoteSection value={value.foods}/>
-              <AddVoteableButton></AddVoteableButton>
             </View>
-            <View style={styles.block}>
-              <Text style={styles.voteEnd}>Ende der Abstimmung: 22. April 2025</Text>
+            <View style={styles.evaluation}>
+              <Text style={styles.blockHeading}>Gastgeber </Text>
             </View>
-          </View>
+            <View style={styles.evaluation}>
+              <Text style={styles.blockHeading}>Allgemein </Text>
+            </View>
+            <View style={styles.block} borderTopWidth= {0} >
+                <Text style={styles.heading}>Kommentar</Text>
+                <TextInput style={styles.textInput} height={80}/>
+            </View>
+            <View style={styles.buttongroup}>
+                <BasicButton
+                        onPress={() => router.navigate('..')}
+                        title={"Abbrechen"}
+                        theme="white"
+                />
+                <BasicButton
+                        onPress={() => router.navigate('..')}
+                        title={"Speichern"}
+                />
+
+            </View>
+            </View>
         </Animated.View>
       </Animated.View>
     </View>
@@ -104,7 +105,7 @@ const styles = StyleSheet.create({
     overflow: "hidden",
     margin: 10,
     borderWidth: 1,
-    borderRadius: 10
+    borderRadius: 10,
   },
   headContainer: {
     flexDirection: "row",
@@ -153,5 +154,34 @@ const styles = StyleSheet.create({
   voteEnd: {
     fontSize: 11,
     alignSelf: "center"
-  }
+  },
+  evaluation: {
+    borderColor: Colors.outline,
+    paddingVertical: 8,
+    paddingHorizontal: 24
+  },
+  buttongroup: {
+    flexDirection: "row",
+    width: '90%',
+    marginTop: 10,
+    gap: 15,
+    justifyContent: "flex-end",
+  },
+  editSection: {
+    gap: 5,
+    flex: 1,
+    flexDirection: "row",
+    width: '50%',
+    alignItems: "center",
+  },
+  textInput: {
+    marginTop: 7,
+    height: 40,
+    borderColor: Colors.outline,
+    borderWidth: 1,
+    backgroundColor: 'white',
+    borderRadius: 8,
+    marginBottom: 5,
+    padding: 10,
+  },
 })
