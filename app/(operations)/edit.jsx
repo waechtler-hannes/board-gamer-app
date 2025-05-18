@@ -1,6 +1,10 @@
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { ScrollView, KeyboardAvoidingView } from 'react-native'
+import { router } from 'expo-router'
+
+//Eigene Komponenten
+import BasicButton from '../../components/BasicButton'
 
 const Edit = () => {
   return (

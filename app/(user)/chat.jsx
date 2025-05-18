@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { Colors } from '../../constants/Colors';
 
 const Chat = () => {
-  const [messages, setMessages] = useState([
+const [messages, setMessages] = useState([
     { id: '1', text: 'Hallo! Wie geht es dir?', sender: 'user' },
     { id: '2', text: 'Mir geht es gut, danke! Und dir?', sender: 'other' },
   ]);
