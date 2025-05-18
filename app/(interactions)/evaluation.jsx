@@ -10,7 +10,7 @@ import EvaluationView from '../../components/EvaluationView'
 //Logik einbauen, dass bei Bewertungen nur Events gelistets sind, deren Datum in der Vergangenheit liegt
 
 const Evaluation = () => {
-  const currentDate = new Date();
+const currentDate = new Date();
 
   const pastEvents = EventData.filter(event => {
     const eventDate = new Date(event.date);
@@ -27,7 +27,7 @@ const Evaluation = () => {
           </ScrollView>
         </KeyboardAvoidingView>
 
-      </View>
+        </View>
     )
   }
   
