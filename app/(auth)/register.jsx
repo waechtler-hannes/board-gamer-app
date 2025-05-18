@@ -23,7 +23,7 @@ const Register = () => {
   const handleSubmit = async () => {
     setError(null)  
     try {
-        await register(email, name, password)
+        await register(email, password, name)
       } catch (error) {
         setError(error.message)
       }
