@@ -1,17 +1,13 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { useUser } from '../hooks/useUser';
 import { Colors } from '../constants/Colors';
 
-const HostIconCircle = () => {
-  const { user } = useUser();
-  const userInitial = user?.name?.charAt(0).toUpperCase() || '?';
-
-// TODO: Initial von Host aus dem Event muss übernommen werden, nicht der des eingeloggten Users
+const HostIconCircle = ({ hostName }) => {
+  const hostInitial = hostName?.charAt(0).toUpperCase() || '?';
 
   return (
     <View style={styles.circle}>
-      <Text style={styles.initial}>{userInitial}</Text>
+      <Text style={styles.initial}>{hostInitial}</Text>
     </View>
   );
 };

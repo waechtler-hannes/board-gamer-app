@@ -40,6 +40,7 @@ const EventView = ({value}) => {
       >
         <HostIconCircle 
             style={styles.headProfileIcon} 
+            hostName={value.host}
            />
         <View style={styles.headContent}>
           <Text style={styles.headDate}>{value.date}</Text>
