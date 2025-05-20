@@ -1,5 +1,5 @@
 import { Linking, Pressable, StyleSheet, Text, View, TextInput } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import { Ionicons } from '@expo/vector-icons'
 import { Colors } from '../constants/Colors'
 import Animated, { Extrapolation, interpolate, measure, runOnUI, useAnimatedRef, useAnimatedStyle, useDerivedValue, useSharedValue, withTiming } from 'react-native-reanimated';
@@ -9,6 +9,23 @@ import { router } from 'expo-router';
 import BasicButton from '../components/BasicButton'
 import HostIconCircle from '../components/HostIconCircle'
 import Spacer from '../components/Spacer'
+
+const StarRating = ({ rating, onChange, size = 20 }) => {
+  return (
+    <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', flex: 1 }}>
+      {[1, 2, 3, 4, 5].map((star) => (
+        <Ionicons
+          key={star}
+          name={star <= rating ? 'star' : 'star-outline'}
+          size={size}
+          color={Colors.primary}
+          style={{ marginHorizontal: 1 }}
+          onPress={() => onChange(star)}
+        />
+      ))}
+    </View>
+  );
+};
 
 const EventView = ({value}) => {
   const listRef = useAnimatedRef();
@@ -23,6 +40,12 @@ const EventView = ({value}) => {
       Extrapolation.CLAMP
     )
   }))
+
+  // State for star ratings
+  const [foodRating, setFoodRating] = useState(0);
+  const [hostRating, setHostRating] = useState(0);
+  const [generalRating, setGeneralRating] = useState(0);
+
   return (
     <View style={styles.container}>
       <Pressable 
@@ -65,14 +88,17 @@ const EventView = ({value}) => {
                 </View>
 
             <Spacer height={10}/>
-            <View style={styles.evaluation}>
+            <View style={styles.evaluationRow}>
               <Text style={styles.blockHeading}>Essen</Text>
+              <StarRating rating={foodRating} onChange={setFoodRating} size={20} />
             </View>
-            <View style={styles.evaluation}>
+            <View style={styles.evaluationRow}>
               <Text style={styles.blockHeading}>Gastgeber </Text>
+              <StarRating rating={hostRating} onChange={setHostRating} size={20} />
             </View>
-            <View style={styles.evaluation}>
+            <View style={styles.evaluationRow}>
               <Text style={styles.blockHeading}>Allgemein </Text>
+              <StarRating rating={generalRating} onChange={setGeneralRating} size={20} />
             </View>
             <View style={styles.block} borderTopWidth= {0} >
                 <Text style={styles.heading}>Kommentar</Text>
@@ -134,7 +160,8 @@ const styles = StyleSheet.create({
     width: "100%"
   },
   mainContent: {
-    marginTop: 1
+    marginTop: 1,
+    marginBottom: 30 // Abstand zu den Buttons
   },
   block: {
     borderTopWidth: 1,
@@ -160,6 +187,15 @@ const styles = StyleSheet.create({
     borderColor: Colors.outline,
     paddingVertical: 8,
     paddingHorizontal: 24
+  },
+  evaluationRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+    borderColor: Colors.outline,
+    paddingVertical: 8,
+    paddingHorizontal: 24,
+    justifyContent: 'space-between',
   },
   buttongroup: {
     flexDirection: "row",
