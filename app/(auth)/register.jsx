@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { Keyboard, TextInput, StyleSheet, Text, View, TouchableWithoutFeedback, KeyboardAvoidingView } from 'react-native'
 import { Link } from 'expo-router'
 import { useUser } from '../../hooks/useUser'

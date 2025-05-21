@@ -1,4 +1,3 @@
-import React from 'react'
 import { StyleSheet, View, ScrollView, KeyboardAvoidingView } from 'react-native'
 import HideWithKeyboard from 'react-native-hide-with-keyboard'
 import { router } from 'expo-router'

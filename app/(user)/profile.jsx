@@ -1,4 +1,3 @@
-import React from 'react'
 import { useState } from 'react'
 import { Keyboard, StyleSheet, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native'
 import { router } from 'expo-router'

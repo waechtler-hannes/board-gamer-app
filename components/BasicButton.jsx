@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, Pressable } from 'react-native';
 import { Colors } from '../constants/Colors';
 
-const BasicButton = ({ onPress, title, style = {}, theme = 'pink' }) => {
+const BasicButton = ({ onPress, title, style = {}, theme = 'pink', disabled = false }) => {
   const themeBtn = theme === 'white' ? styles.whiteBtn : styles.pinkBtn;
   const themeText = theme === 'white' ? styles.whiteBtnText : styles.pinkBtnText;
 
@@ -10,6 +10,7 @@ const BasicButton = ({ onPress, title, style = {}, theme = 'pink' }) => {
     <Pressable
       style={({ pressed }) => [themeBtn, pressed && styles.pressed, style]}
       onPress={onPress}
+      disabled={disabled}
     >
       <Text style={[themeText]}>{title}</Text>
     </Pressable>

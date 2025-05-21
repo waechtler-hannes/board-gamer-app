@@ -1,7 +1,4 @@
-import React from 'react'
 import { StyleSheet, View, ScrollView, KeyboardAvoidingView } from 'react-native'
-import HideWithKeyboard from 'react-native-hide-with-keyboard'
-import { router } from 'expo-router'
 
 //Eigene Komponenten
 import EventData from '../../assets/data/EventData'
@@ -19,29 +16,28 @@ const currentDate = new Date();
 
   return (
    <View style={styles.container}>
-        <KeyboardAvoidingView style={styles.keyboardAvoider} behavior="position" keyboardVerticalOffset={100}>
-          <ScrollView keyboardShouldPersistTaps='handled' showsVerticalScrollIndicator={false} style={styles.scrollContainer}>
-            {pastEvents.map((value, index) => {
-              return <EvaluationView value={value} key={index}/>
-            })}
-          </ScrollView>
-        </KeyboardAvoidingView>
+    <KeyboardAvoidingView style={styles.keyboardAvoider} behavior="position" keyboardVerticalOffset={100}>
+      <ScrollView keyboardShouldPersistTaps='handled' showsVerticalScrollIndicator={false} style={styles.scrollContainer}>
+        {pastEvents.map((value, index) => {
+          return <EvaluationView value={value} key={index}/>
+        })}
+      </ScrollView>
+    </KeyboardAvoidingView>
+    </View>
+  )
+}
+  
+export default Evaluation
 
-        </View>
-    )
+const styles = StyleSheet.create({
+  container: {
+    flex: 1
+  },
+  keyboardAvoider: {
+    flex: 1,
+    flexDirection: 'column'
+  },
+  scrollContainer: {
+    padding: 10
   }
-  
-  export default Evaluation
-  
-  const styles = StyleSheet.create({
-    container: {
-      flex: 1
-    },
-    keyboardAvoider: {
-      flex: 1,
-      flexDirection: 'column'
-    },
-    scrollContainer: {
-      padding: 10
-    }
-  })
+})

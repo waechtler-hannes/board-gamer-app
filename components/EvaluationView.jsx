@@ -1,5 +1,5 @@
-import { Linking, Pressable, StyleSheet, Text, View, TextInput } from 'react-native'
-import React, { useState } from 'react'
+import { Pressable, StyleSheet, Text, View, TextInput } from 'react-native'
+import { useState } from 'react'
 import { Ionicons } from '@expo/vector-icons'
 import { Colors } from '../constants/Colors'
 import Animated, { Extrapolation, interpolate, measure, runOnUI, useAnimatedRef, useAnimatedStyle, useDerivedValue, useSharedValue, withTiming } from 'react-native-reanimated';
@@ -27,7 +27,7 @@ const StarRating = ({ rating, onChange, size = 20 }) => {
   );
 };
 
-const EventView = ({value}) => {
+const EvaluationView = ({value}) => {
   const listRef = useAnimatedRef();
   const heightValue = useSharedValue(0);
   const open = useSharedValue(false);
@@ -60,12 +60,9 @@ const EventView = ({value}) => {
           open.value = !open.value;
         }}
       >
-
-        <HostIconCircle 
-            style={styles.headProfileIcon} 
-            hostName={value.host}
-           />
-          
+        <HostIconCircle
+          hostName={value.host}
+        />
         <View style={styles.headContent}>
           <Text style={styles.headDate}>{value.date}</Text>
           <Text>{value.host}</Text>
@@ -80,50 +77,54 @@ const EventView = ({value}) => {
       </Pressable>
       <Animated.View style={heightAnimationStyle}>
         <Animated.View ref={listRef} style={styles.contentContainer}>
-            <View style={styles.mainContent}>
-                <View style={styles.block}>
-                    <Spacer height={15}/>
-                <Text style={styles.blockHeading}>Wie hat dir der Abend gefallen?</Text>
-                <Text>Bitte bewerte das Essen, den Gastgeber sowie die allgemeine Stimmung des Abends: </Text>
-                </View>
+          <View style={styles.mainContent}>
+            <View style={styles.block}>
+              <Spacer height={15}/>
+              <Text style={styles.blockHeading}>Wie hat dir der Abend gefallen?</Text>
+              <Text>Bitte bewerte das Essen, den Gastgeber sowie die allgemeine Stimmung des Abends: </Text>
+            </View>
 
             <Spacer height={10}/>
+
             <View style={styles.evaluationRow}>
               <Text style={styles.blockHeading}>Essen</Text>
               <StarRating rating={foodRating} onChange={setFoodRating} size={20} />
             </View>
+
             <View style={styles.evaluationRow}>
               <Text style={styles.blockHeading}>Gastgeber </Text>
               <StarRating rating={hostRating} onChange={setHostRating} size={20} />
             </View>
+
             <View style={styles.evaluationRow}>
               <Text style={styles.blockHeading}>Allgemein </Text>
               <StarRating rating={generalRating} onChange={setGeneralRating} size={20} />
             </View>
-            <View style={styles.block} borderTopWidth= {0} >
-                <Text style={styles.heading}>Kommentar</Text>
-                <TextInput style={styles.textInput} height={80}/>
-            </View>
-            <View style={styles.buttongroup}>
-                <BasicButton
-                        onPress={() => router.navigate('..')}
-                        title={"Abbrechen"}
-                        theme="white"
-                />
-                <BasicButton
-                        onPress={() => router.navigate('..')}
-                        title={"Speichern"}
-                />
 
+            <View style={styles.block}>
+              <Text>Kommentar</Text>
+              <TextInput style={styles.textInput} multiline numberOfLines={3} textAlignVertical='top'/>
             </View>
+
+            <View style={styles.buttongroup}>
+              <BasicButton
+                onPress={() => router.navigate('..')}
+                title={"Abbrechen"}
+                theme="white"
+              />
+              <BasicButton
+                onPress={() => router.navigate('..')}
+                title={"Speichern"}
+              />
             </View>
+          </View>
         </Animated.View>
       </Animated.View>
     </View>
   )
 }
 
-export default EventView
+export default EvaluationView
 
 const styles = StyleSheet.create({
   container: {
@@ -140,9 +141,6 @@ const styles = StyleSheet.create({
     padding: 20,
     paddingRight: 24,
     gap: 15
-  },
-  headProfileIcon: {
-    color: Colors.primaryContainer
   },
   headContent: {
     gap: 5,
@@ -213,7 +211,7 @@ const styles = StyleSheet.create({
   },
   textInput: {
     marginTop: 7,
-    height: 40,
+    height: 80,
     borderColor: Colors.outline,
     borderWidth: 1,
     backgroundColor: 'white',

@@ -1,4 +1,3 @@
-import React from 'react';
 import { StyleSheet, Text, View, FlatList, TextInput, TouchableOpacity } from 'react-native';
 import { useState } from 'react';
 import { Colors } from '../../constants/Colors';
