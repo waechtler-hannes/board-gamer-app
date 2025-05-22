@@ -61,19 +61,19 @@ const EvaluationView = ({value}) => {
         }}
       >
         <HostIconCircle
-          hostName={value.host}
+          hostName={value.host.name}
         />
         <View style={styles.headContent}>
-          <Text style={styles.headDate}>{value.date}</Text>
-          <Text>{value.host}</Text>
+          <Text style={styles.headDate}>
+            {new Date(value.datetime).toLocaleDateString('de-DE', { day: '2-digit', month: 'long', year: 'numeric' })}
+          </Text>
+          <Text>{value.host.name}</Text>
         </View>
-        {value.editable && (
-          <Ionicons
-            size={24}
-            name="star-half-outline"
-            style={styles.icon}
-          />
-        )}
+        <Ionicons
+          size={24}
+          name="star-half-outline"
+          style={styles.icon}
+        />
       </Pressable>
       <Animated.View style={heightAnimationStyle}>
         <Animated.View ref={listRef} style={styles.contentContainer}>

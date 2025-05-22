@@ -1,9 +1,9 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Keyboard, StyleSheet, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native'
 import { router } from 'expo-router'
 import { Ionicons } from '@expo/vector-icons'
 import { useUser } from '../../hooks/useUser'
-import { AdvancedCheckbox } from 'react-native-advanced-checkbox'
+import { useHosts } from '../../hooks/useHosts'
 
 //Konstanten
 import { Colors } from '../../constants/Colors'
@@ -15,50 +15,78 @@ import Spacer from '../../components/Spacer'
 
 const Profile = () => {
 
+  const [postalcode, setPostalcode] = useState("")
+  const [city, setCity] = useState("")
+  const [street, setStreet] = useState("")
+  const [housenumber, setHousenumber] = useState("")
+  const [loading, setLoading] = useState(false)
+
+  const { upsertHost, hosts } = useHosts()
   const { logout, user } = useUser()
-  const [checked, setChecked] = useState(false);
+
+  useEffect(() => {
+    const myHost = hosts.find(h => h.userId === user.$id)
+    if (myHost) {
+      setPostalcode(myHost.postalcode?.toString() || "")
+      setCity(myHost.city || "")
+      setStreet(myHost.street || "")
+      setHousenumber(myHost.housenumber?.toString() || "")
+    }
+  }, [hosts, user.$id])
+
+  const handleSubmit = async () => {
+    if(!postalcode.trim() || !city.trim() || !street.trim() || !housenumber.trim()) return
+    setLoading(true)
+    await upsertHost({ // Hier werden alle Daten an die Datenbank gesendet
+      postalcode: parseInt(postalcode, 10),
+      city,
+      street,
+      housenumber: parseInt(housenumber, 10),
+      name: user.name
+    })
+    setPostalcode("")
+    setCity("")
+    setStreet("")
+    setHousenumber("")
+    router.replace('..')
+    setLoading(false)
+  }
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.container}>
+        <Spacer height={5}/>
+        <UserInitialCircle/>
+        <Spacer height={5}/>
 
-      <Spacer height={5}/>
-      <UserInitialCircle/>
-      <Spacer height={5}/>
-
-      <View style={styles.contentSection}>
-            <Text style={styles.heading}>Name</Text>
-            <Text style={styles.data}>{user.name}</Text>
+        <View style={styles.contentSection}>
+          <Text style={styles.heading}>Name</Text>
+          <Text style={styles.data}>{user.name}</Text>
         </View>
 
         <View style={styles.contentSection}>
-            <Text style={styles.heading}>Email</Text>
-            <Text style={styles.data}>{user.email}</Text>
+          <Text style={styles.heading}>Email</Text>
+          <Text style={styles.data}>{user.email}</Text>
         </View>
-
+        
         <View style={styles.addressSection}>
           <Text style={styles.heading}>Adresse</Text>
           <View>
-            <Text style={styles.text}>Straße</Text>
-            <TextInput style={styles.textInput}/>
-          </View>
-          <View>
             <Text style={styles.text}>Postleitzahl</Text>
-            <TextInput style={styles.textInput}/>
+            <TextInput style={styles.textInput} value={postalcode} onChangeText={setPostalcode}/>
           </View>
           <View>
             <Text style={styles.text}>Ort</Text>
-            <TextInput style={styles.textInput}/>
+            <TextInput style={styles.textInput} value={city} onChangeText={setCity}/>
           </View>
-
-          <AdvancedCheckbox
-            value={checked}
-            onValueChange={setChecked}
-            label="Adresse ist für andere sichtbar"
-            checkedColor={Colors.primary}
-            uncheckedColor={Colors.outline}
-            size={14}
-          />
+          <View>
+            <Text style={styles.text}>Straße</Text>
+            <TextInput style={styles.textInput} value={street} onChangeText={setStreet}/>
+          </View>
+          <View>
+            <Text style={styles.text}>Hausnummer</Text>
+            <TextInput style={styles.textInput} value={housenumber} onChangeText={setHousenumber}/>
+          </View>
         </View>
 
         <View style={styles.buttongroup}>
@@ -68,8 +96,9 @@ const Profile = () => {
             theme="white"
           />
           <BasicButton
-            onPress={() => router.navigate('..')}
-            title={"Speichern"}
+            onPress={handleSubmit}
+            disabled={loading}
+            title={loading ? "Speichert..." : "Speichern"}
           />
         </View>
 

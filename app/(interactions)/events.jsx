@@ -1,29 +1,33 @@
-import { StyleSheet, View, ScrollView, KeyboardAvoidingView } from 'react-native'
+import { StyleSheet, FlatList, KeyboardAvoidingView, Platform, View } from 'react-native'
 import HideWithKeyboard from 'react-native-hide-with-keyboard'
 import { router } from 'expo-router'
+import { useEvents } from '../../hooks/useEvents'
 
 //Eigene Komponenten
 import BasicButton from '../../components/BasicButton'
-import EventData from '../../assets/data/EventData'
 import EventView from '../../components/EventView'
 
 const Events = () => {
-  const currentDate = new Date();
-
-  const futureEvents = EventData.filter(event => {
-    const eventDate = new Date(event.date);
-    return eventDate > currentDate;
-  });
+  const { events } = useEvents()
+  const now = new Date();
+  const futureEvents = events.filter(e => new Date(e.datetime) > now);
+  const sortedEvents = [...futureEvents].sort((a, b) => new Date(a.datetime) - new Date(b.datetime));
 
   return (
-    <View style={styles.container}>
-      <KeyboardAvoidingView style={styles.keyboardAvoider} behavior="position" keyboardVerticalOffset={100}>
-        <ScrollView keyboardShouldPersistTaps='handled' showsVerticalScrollIndicator={false} style={styles.scrollContainer}>
-          {futureEvents.map((value, index) => {
-            return <EventView value={value} key={index}/>
-          })}
-        </ScrollView>
-      </KeyboardAvoidingView>
+    <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      keyboardVerticalOffset={140}
+    >
+      <FlatList
+        data={sortedEvents}
+        showsVerticalScrollIndicator={false}
+        keyExtractor={(item) => item.$id}
+        contentContainerStyle={styles.list}
+        renderItem={({ item }) => (
+          <EventView value={item}/>
+        )}
+      />
       <HideWithKeyboard>
         <BasicButton
           onPress={() => router.navigate('/create')}
@@ -35,21 +39,14 @@ const Events = () => {
           }}
         />
       </HideWithKeyboard>
-    </View>
+    </KeyboardAvoidingView>
   )
 }
 
 export default Events
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1
-  },
-  keyboardAvoider: {
-    flex: 1,
-    flexDirection: 'column'
-  },
-  scrollContainer: {
+  list: {
     padding: 10
   }
 })

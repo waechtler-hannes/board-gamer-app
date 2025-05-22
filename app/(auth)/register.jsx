@@ -13,8 +13,8 @@ import BasicButton from '../../components/BasicButton'
 
 const Register = () => {
 
-  const [email, setEmail] = useState ('')
   const [name, setName] = useState ('')
+  const [email, setEmail] = useState ('')
   const [password, setPassword] = useState ('')
   const [error, setError] = useState(null)
 
@@ -23,7 +23,7 @@ const Register = () => {
   const handleSubmit = async () => {
     setError(null)  
     try {
-        await register(email, password, name)
+        await register(name, email, password)
       } catch (error) {
         setError(error.message)
       }
@@ -40,19 +40,17 @@ const Register = () => {
         <KeyboardAvoidingView behavior='padding' style={{width: "100%", alignItems: "center"}}>
           <TextInput
             style={styles.textInput}
+            placeholder="Name" 
+            onChangeText={setName}
+            value={name}
+          />
+          <TextInput
+            style={styles.textInput}
             placeholder="Email" 
             keyboardType="email-address"
             onChangeText={setEmail}
             value={email}
           />
-          <Spacer height={15}/>
-          <TextInput
-            style={styles.textInput}
-            placeholder="Name" 
-            onChangeText={setName}
-            value={name}
-          />
-          <Spacer height={15}/>
           <TextInput
             style={styles.textInput}
             placeholder="Passwort" 
@@ -93,7 +91,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     width: "80%",	
     borderRadius: 8,
-    borderColor: Colors.outline
+    borderColor: Colors.outline,
+    marginTop: 15
   },
   link: {
     marginTop: 50

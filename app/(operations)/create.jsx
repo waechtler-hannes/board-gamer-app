@@ -1,8 +1,9 @@
 import { useState } from 'react'
-import { Keyboard, StyleSheet, Text, ScrollView, TextInput, KeyboardAvoidingView, TouchableWithoutFeedback, View } from 'react-native'
+import { Keyboard, StyleSheet, Text, TextInput, KeyboardAvoidingView, TouchableWithoutFeedback, View } from 'react-native'
 import { Dropdown } from 'react-native-element-dropdown'
 import { useRouter } from 'expo-router'
 import { useEvents } from '../../hooks/useEvents'
+import { useHosts } from '../../hooks/useHosts'
 
 //Konstanten
 import { Colors } from '../../constants/Colors'
@@ -11,6 +12,13 @@ import { Colors } from '../../constants/Colors'
 import BasicButton from '../../components/BasicButton'
 
 const Create = () => {
+
+  const { hosts } = useHosts()
+  const hostOptions = hosts.map(host => ({
+    label: host.name,
+    value: host.$id
+  }))
+
   const [date, setDate] = useState("")
   const [time, setTime] = useState("")
   const [host, setHost] = useState("")
@@ -23,7 +31,7 @@ const Create = () => {
   const handleSubmit = async () => {
     if(!date.trim() || !time.trim() || !host.trim() || !description.trim()) return
     setLoading(true)
-    await createEvent({
+    await createEvent({ // Hier werden alle Daten an die Datenbank gesendet
       datetime: `${date} ${time}`,
       host,
       description
@@ -36,13 +44,6 @@ const Create = () => {
     setLoading(false)
   }
 
-  const hostData = [
-    { label: 'Max Mustermann', value: 'max' },
-    { label: 'Erika Mustermann', value: 'erika' },
-    { label: 'Hans Müller', value: 'hans' },
-  ];
-
-    const [value, setValue] = useState(null);
     const [isFocus, setIsFocus] = useState(false);
 
   return (
@@ -60,7 +61,7 @@ const Create = () => {
             <Text style={styles.heading}>Host</Text>
             <Dropdown
               style={[styles.textInput, isFocus && { borderColor: Colors.primary }]}
-              data={hostData}
+              data={hostOptions}
               maxHeight={300}
               labelField="label"
               valueField="value"
@@ -69,7 +70,7 @@ const Create = () => {
               onFocus={() => setIsFocus(true)}
               onBlur={() => setIsFocus(false)}
               onChange={item => {
-                setHost(item.value); // <-- Das ist wichtig!
+                setHost(item.value);
                 setIsFocus(false);
               }}
             />

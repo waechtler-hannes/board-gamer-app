@@ -1,36 +1,68 @@
-import React, { useState } from 'react'
-import { StyleSheet, Pressable, Text, View, TextInput } from 'react-native'
+import { useContext, useState, useEffect, useRef } from 'react'
+import { StyleSheet, Pressable, Text, View, TextInput, Keyboard } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
 import { Colors } from '../constants/Colors';
+import { EventsContext } from '../contexts/EventsContext';
 
-const AddVoteable = () => {
-    const [isPressed, setIsPressed] = useState(true);
-    
-    function uploadVoteable() {
-        //Funktion, um neues Spiel oder Essen in die Datenbank hochzuladen
-        setIsPressed(!isPressed)
+const AddVoteable = ({ eventId, type, currentItems }) => {
+    const { updateEvent } = useContext(EventsContext);
+    const [input, setInput] = useState("");
+    const [isPressed, setIsPressed] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const inputRef = useRef(null);
+
+    useEffect(() => {
+        if (!isPressed) setInput("");
+    }, [isPressed]);
+
+    useEffect(() => {
+        if (isPressed && inputRef.current) {
+            const timeout = setTimeout(() => {
+                inputRef.current.focus();
+            }, 50);
+            return () => clearTimeout(timeout);
+        }
+    }, [isPressed]);
+
+    async function uploadVoteable() {
+        if (!input.trim() || loading) return;
+        setLoading(true);
+        const newItem = JSON.stringify({ name: input.trim(), votes: 0 });
+        const updatedItems = [...(currentItems || []), newItem];
+        await updateEvent(eventId, { [type]: updatedItems });
+        setLoading(false);
+        setIsPressed(false);
+        Keyboard.dismiss();
     }
 
     return (
-        <Pressable style={styles.container} onPress={() => {setIsPressed(!isPressed)}}> 
-            {isPressed ? (
+        isPressed ? (
+            <View style={[styles.container, styles.form]}>
+                <TextInput
+                    ref={inputRef}
+                    style={styles.input}
+                    value={input}
+                    onChangeText={setInput}
+                    placeholder={type === "foods" ? "Essensvorschlag" : "Spielname"}
+                    returnKeyType="done"
+                    onSubmitEditing={uploadVoteable}
+                />
+                {/* Der Hinzufügen-Button wurde entfernt */}
+            </View>
+        ) : (
+            <Pressable style={styles.container} onPress={() => setIsPressed(true)}>
                 <View style={styles.getInputButton}>
                     <Ionicons
                         size={20}
                         name="add-circle-outline"
                         color={Colors.primary}
                     />
-                    <Text style={{color: Colors.primary}}>Eintrag hinzufügen</Text>
+                    <Text style={{color: Colors.primary}}>
+                        {type === "foods" ? "Essen hinzufügen" : "Spiel hinzufügen"}
+                    </Text>
                 </View>
-            ) : (
-                <View style={styles.form}>
-                    <TextInput autoFocus={true} style={styles.input}/>
-                    <Pressable style={styles.uploadButton} onPress={() => uploadVoteable()}>
-                        <Text style={styles.uploadButtonText}>Hinzufügen</Text>
-                    </Pressable>
-                </View>
-            )}
-        </Pressable>
+            </Pressable>
+        )
     )
 }
 
@@ -38,7 +70,6 @@ export default AddVoteable
 
 const styles = StyleSheet.create({
     container: {
-        height: 35,
         justifyContent: "center"
     },
     getInputButton: {
@@ -49,8 +80,9 @@ const styles = StyleSheet.create({
     input: {
         backgroundColor: "white",
         borderWidth: 1,
+        borderRadius: 5,
         borderColor: Colors.outline,
-        padding: 0,
+        padding: 8,
         flexGrow: 1
     },
     form: {

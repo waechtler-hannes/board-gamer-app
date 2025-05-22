@@ -1,43 +1,39 @@
-import { StyleSheet, View, ScrollView, KeyboardAvoidingView } from 'react-native'
+import { StyleSheet, KeyboardAvoidingView, FlatList, Platform } from 'react-native'
+import { useEvents } from '../../hooks/useEvents'
 
 //Eigene Komponenten
-import EventData from '../../assets/data/EventData'
 import EvaluationView from '../../components/EvaluationView'
 
-//Logik einbauen, dass bei Bewertungen nur Events gelistets sind, deren Datum in der Vergangenheit liegt
-
 const Evaluation = () => {
-const currentDate = new Date();
 
-  const pastEvents = EventData.filter(event => {
-    const eventDate = new Date(event.date);
-    return eventDate < currentDate;
-  });
+  const { events } = useEvents()
+  const now = new Date();
+  const pastEvents = events.filter(e => new Date(e.datetime) <= now);
+  const sortedEvents = [...pastEvents].sort((a, b) => new Date(b.datetime) - new Date(a.datetime));
 
   return (
-   <View style={styles.container}>
-    <KeyboardAvoidingView style={styles.keyboardAvoider} behavior="position" keyboardVerticalOffset={100}>
-      <ScrollView keyboardShouldPersistTaps='handled' showsVerticalScrollIndicator={false} style={styles.scrollContainer}>
-        {pastEvents.map((value, index) => {
-          return <EvaluationView value={value} key={index}/>
-        })}
-      </ScrollView>
+    <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      keyboardVerticalOffset={140}
+    >
+      <FlatList
+        data={sortedEvents}
+        showsVerticalScrollIndicator={false}
+        keyExtractor={(item) => item.$id}
+        contentContainerStyle={styles.list}
+        renderItem={({ item }) => (
+          <EvaluationView value={item}/>
+        )}
+      />
     </KeyboardAvoidingView>
-    </View>
   )
 }
   
 export default Evaluation
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1
-  },
-  keyboardAvoider: {
-    flex: 1,
-    flexDirection: 'column'
-  },
-  scrollContainer: {
+  list: {
     padding: 10
   }
 })
