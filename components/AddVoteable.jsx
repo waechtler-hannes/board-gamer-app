@@ -46,8 +46,8 @@ const AddVoteable = ({ eventId, type, currentItems }) => {
                     placeholder={type === "foods" ? "Essensvorschlag" : "Spielname"}
                     returnKeyType="done"
                     onSubmitEditing={uploadVoteable}
+                    onBlur={() => setIsPressed(false)}
                 />
-                {/* Der Hinzufügen-Button wurde entfernt */}
             </View>
         ) : (
             <Pressable style={styles.container} onPress={() => setIsPressed(true)}>
@@ -75,7 +75,8 @@ const styles = StyleSheet.create({
     getInputButton: {
         flexDirection: "row",
         gap: 5,
-        alignSelf: "center"
+        alignSelf: "center",
+        marginVertical: 8
     },
     input: {
         backgroundColor: "white",

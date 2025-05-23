@@ -1,9 +1,10 @@
 {
   "expo": {
-    "name": "board-gamer-app",
-    "slug": "board-gamer-app",
+    "name": "nextgame",
+    "slug": "nextgame",
     "version": "1.0.0",
     "orientation": "portrait",
+    "scheme": "com.school.nextgame",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
@@ -13,13 +14,15 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.school.nextgame"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.school.nextgame"
     },
     "web": {
       "favicon": "./assets/favicon.png"

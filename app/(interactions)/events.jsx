@@ -19,26 +19,26 @@ const Events = () => {
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       keyboardVerticalOffset={140}
     >
-      <FlatList
-        data={sortedEvents}
-        showsVerticalScrollIndicator={false}
-        keyExtractor={(item) => item.$id}
-        contentContainerStyle={styles.list}
-        renderItem={({ item }) => (
-          <EventView value={item}/>
-        )}
-      />
-      <HideWithKeyboard>
-        <BasicButton
-          onPress={() => router.navigate('/create')}
-          title="Event erstellen"
-          style={{
-            width: "65%",
-            alignSelf: "center",
-            marginVertical: 20
-          }}
+      <View style={{ flex: 1 }}>
+        <FlatList
+          data={sortedEvents}
+          showsVerticalScrollIndicator={false}
+          keyExtractor={(item) => item.$id}
+          contentContainerStyle={styles.list}
+          renderItem={({ item }) => (
+            <EventView value={item}/>
+          )}
         />
-      </HideWithKeyboard>
+        <HideWithKeyboard>
+          <View style={styles.buttonContainer}>
+            <BasicButton
+              onPress={() => router.navigate('/create')}
+              title="Event erstellen"
+              style={styles.button}
+            />
+          </View>
+        </HideWithKeyboard>
+      </View>
     </KeyboardAvoidingView>
   )
 }
@@ -47,6 +47,19 @@ export default Events
 
 const styles = StyleSheet.create({
   list: {
-    padding: 10
+    padding: 10,
+    paddingBottom: 80
+  },
+  buttonContainer: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: 20,
+    alignItems: 'center',
+    backgroundColor: 'transparent'
+  },
+  button: {
+    width: "65%",
+    alignSelf: "center"
   }
 })

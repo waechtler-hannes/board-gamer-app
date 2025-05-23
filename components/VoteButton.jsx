@@ -13,7 +13,7 @@ import { useUser } from '../hooks/useUser';
  * @param {number} props.index
  * @param {Array} props.items
  */
-const VoteButton = ({ votes, eventId, type, index, items }) => {
+const VoteButton = ({ votes, eventId, type, index, items, disabled }) => {
     const { updateEvent } = useContext(EventsContext);
     const { user } = useUser();
     const userId = user?.$id;
@@ -24,7 +24,7 @@ const VoteButton = ({ votes, eventId, type, index, items }) => {
     const [loading, setLoading] = useState(false);
 
     async function handleVote() {
-        if (!userId || loading) return;
+        if (!userId || loading || disabled) return; // <-- disabled hier beachten!
         setLoading(true);
         let updatedItem = { ...item };
         if (hasVoted) {
@@ -41,7 +41,7 @@ const VoteButton = ({ votes, eventId, type, index, items }) => {
     }
 
     return (
-        <Pressable onPress={handleVote} disabled={loading}>
+        <Pressable onPress={handleVote} disabled={loading || disabled}>
             <View style={styles.button}>
                 <Ionicons
                     size={20}

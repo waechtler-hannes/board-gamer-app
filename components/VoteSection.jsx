@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from 'react-native'
 import VoteButton from './VoteButton'
 
-const VoteSection = ({ value, eventId, type }) => {
+const VoteSection = ({ value, eventId, type, disabled }) => {
   const items = Array.isArray(value)
     ? value.map(v => (typeof v === "string" ? JSON.parse(v) : v))
     : [];
@@ -21,6 +21,7 @@ const VoteSection = ({ value, eventId, type }) => {
               type={type}
               index={originalIndex}
               items={value}
+              disabled={disabled}
             />
           </View>
         );

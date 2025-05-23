@@ -1,7 +1,8 @@
 import { useState } from 'react'
-import { Keyboard, StyleSheet, Text, TextInput, KeyboardAvoidingView, TouchableWithoutFeedback, View } from 'react-native'
-import { Dropdown } from 'react-native-element-dropdown'
+import { Keyboard, StyleSheet, TextInput, KeyboardAvoidingView, TouchableWithoutFeedback, View, Text } from 'react-native'
 import { useRouter } from 'expo-router'
+
+//Hooks
 import { useEvents } from '../../hooks/useEvents'
 import { useHosts } from '../../hooks/useHosts'
 
@@ -10,88 +11,72 @@ import { Colors } from '../../constants/Colors'
 
 //Eigene Komponenten
 import BasicButton from '../../components/BasicButton'
+import DatePickerField from '../../components/DatePickerField'
+import TimePickerField from '../../components/TimePickerField'
+import HostDropdown from '../../components/HostDropdown'
 
 const Create = () => {
-
   const { hosts } = useHosts()
-  const hostOptions = hosts.map(host => ({
-    label: host.name,
-    value: host.$id
-  }))
-
   const [date, setDate] = useState("")
   const [time, setTime] = useState("")
   const [host, setHost] = useState("")
   const [description, setDescription] = useState("")
   const [loading, setLoading] = useState(false)
-
   const { createEvent } = useEvents()
   const router = useRouter()
+  const selectedHost = hosts.find(h => h.$id === host)
+  const address = selectedHost ? `${selectedHost.street} ${selectedHost.housenumber}, ${selectedHost.postalcode} ${selectedHost.city}` : ""
 
   const handleSubmit = async () => {
-    if(!date.trim() || !time.trim() || !host.trim() || !description.trim()) return
+    if (!date.trim() || !time.trim() || !host.trim()) return
     setLoading(true)
-    await createEvent({ // Hier werden alle Daten an die Datenbank gesendet
+    const eventDate = new Date(`${date.split('.').reverse().join('-')}T${time}`);
+    const voteEnd = new Date(eventDate);
+    voteEnd.setDate(voteEnd.getDate() - 2);
+    await createEvent({
       datetime: `${date} ${time}`,
+      voteEnd: voteEnd.toISOString(),
       host,
-      description
+      description: description.trim() ? description : "Es wurde keine Beschreibung angegeben."
     })
-    setDate("")
-    setTime("")
-    setHost("")
-    setDescription("")
+    setDate(""); setTime(""); setHost(""); setDescription("")
     router.replace('/events')
     setLoading(false)
   }
 
-    const [isFocus, setIsFocus] = useState(false);
-
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.container}>
-        <KeyboardAvoidingView behavior='padding' style={{width: "100%", alignItems: "center"}}>
-          <View style={styles.editSection}>
-
-            <Text style={styles.heading}>Datum</Text>
-            <TextInput style={styles.textInput} value={date} onChangeText={setDate}/>
-
-            <Text style={styles.heading}>Uhrzeit</Text>
-            <TextInput style={styles.textInput} value={time} onChangeText={setTime}/>
-
-            <Text style={styles.heading}>Host</Text>
-            <Dropdown
-              style={[styles.textInput, isFocus && { borderColor: Colors.primary }]}
-              data={hostOptions}
-              maxHeight={300}
-              labelField="label"
-              valueField="value"
-              placeholder={!isFocus ? 'Host auswählen' : '...'}
-              value={host}
-              onFocus={() => setIsFocus(true)}
-              onBlur={() => setIsFocus(false)}
-              onChange={item => {
-                setHost(item.value);
-                setIsFocus(false);
-              }}
-            />
+        <KeyboardAvoidingView behavior='padding' style={{ width: "100%", alignItems: "center" }}>
+          <View style={{ width: '100%' }}>
+            <DatePickerField value={date} setValue={setDate} style={styles} />
+            <TimePickerField value={time} setValue={setTime} style={styles} />
+            <HostDropdown value={host} setValue={setHost} style={styles} />
 
             <Text style={styles.heading}>Ort</Text>
-            <TextInput style={[styles.textInput, {backgroundColor: "#eee", color: "#888"}]} value={'Musterstr. 1, 00000 Musterstadt'} editable={false}/> 
+            <TextInput
+              style={[styles.input, { backgroundColor: "#eee", color: "#777" }]}
+              value={address}
+              editable={false}
+              placeholder="Standort des Hosts"
+              placeholderTextColor={styles.placeholder.color}
+            />
 
             <Text style={styles.heading}>Beschreibung</Text>
-            <TextInput style={[styles.textInput, {height: 80}]} multiline numberOfLines={3} textAlignVertical='top' value={description} onChangeText={setDescription}/>
+            <TextInput
+              style={[styles.input, { height: 80 }]}
+              multiline
+              numberOfLines={3}
+              textAlignVertical='top'
+              value={description}
+              onChangeText={setDescription}
+              placeholder="Beschreibung"
+              placeholderTextColor={styles.placeholder.color}
+            />
           </View>
           <View style={styles.buttongroup}>
-            <BasicButton
-              onPress={() => router.navigate('..')}
-              title={"Abbrechen"}
-              theme="white"
-            />
-            <BasicButton
-              onPress={handleSubmit}
-              disabled={loading}
-              title={loading ? "Speichert..." : "Speichern"}
-            />
+            <BasicButton onPress={() => router.navigate('..')} title="Abbrechen" theme="white" />
+            <BasicButton onPress={handleSubmit} disabled={loading} title={loading ? "Speichert..." : "Speichern"} />
           </View>
         </KeyboardAvoidingView>
       </View>
@@ -111,21 +96,31 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 10
   },
-  editSection: {
-    width: '100%'
-  },
   heading: {
     fontSize: 14,
     fontWeight: "bold",
     marginTop: 10
   },
-  textInput: {
+  input: {
     marginVertical: 6,
     borderColor: Colors.outline,
     borderWidth: 1,
-    backgroundColor: 'white',
+    backgroundColor: "#fff",
     borderRadius: 8,
-    padding: 9
+    padding: 9,
+    flexDirection: "row",
+    alignItems: "center"
+  },
+  inputActive: {
+    borderColor: Colors.primary
+  },
+  inputText: {
+    flex: 1,
+    color: "#222",
+    fontSize: 14
+  },
+  placeholder: {
+    color: "#aaa"
   },
   buttongroup: {
     flexDirection: "row",
@@ -133,5 +128,5 @@ const styles = StyleSheet.create({
     marginTop: 30,
     gap: 15,
     justifyContent: "flex-end"
-  },
+  }
 })

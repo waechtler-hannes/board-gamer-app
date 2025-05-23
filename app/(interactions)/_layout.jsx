@@ -19,11 +19,14 @@ const InteractionsLayout = () => {
           tabBarActiveTintColor: Colors.primary,
           tabBarInactiveTintColor: Colors.primaryDark,
           tabBarHideOnKeyboard: true,
+          tabBarLabelStyle: {
+            fontSize: 12
+          },
           headerStyle: {
             backgroundColor: Colors.primary
           },
           tabBarStyle: {
-            height: 75
+            height: 99
           },
           tabBarItemStyle: {
             flexDirection: "row",
