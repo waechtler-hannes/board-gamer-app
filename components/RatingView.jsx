@@ -6,9 +6,13 @@ import Animated, { Extrapolation, interpolate, measure, runOnUI, useAnimatedRef,
 import { router } from 'expo-router';
 
 //Eigene Komponenten
-import BasicButton from '../components/BasicButton'
-import HostIconCircle from '../components/HostIconCircle'
-import Spacer from '../components/Spacer'
+import BasicButton from './BasicButton'
+import HostIconCircle from './HostIconCircle'
+import Spacer from './Spacer'
+
+// NEU: RatingContext-Hook importieren
+import { useRatings } from '../hooks/useRatings'
+import { useUser } from '../hooks/useUser'
 
 const StarRating = ({ rating, onChange, size = 20 }) => {
   return (
@@ -27,7 +31,7 @@ const StarRating = ({ rating, onChange, size = 20 }) => {
   );
 };
 
-const EvaluationView = ({value}) => {
+const RatingView = ({value}) => {
   const listRef = useAnimatedRef();
   const heightValue = useSharedValue(0);
   const open = useSharedValue(false);
@@ -45,6 +49,34 @@ const EvaluationView = ({value}) => {
   const [foodRating, setFoodRating] = useState(0);
   const [hostRating, setHostRating] = useState(0);
   const [generalRating, setGeneralRating] = useState(0);
+  const [comment, setComment] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const { createRating } = useRatings();
+  const { user } = useUser();
+
+  async function handleSave() {
+    if (!user || loading) return;
+    setLoading(true);
+    try {
+      await createRating({
+        eventId: value.$id,
+        userId: user.$id,
+        foodRating,
+        hostRating,
+        generalRating,
+        comment,
+        createdAt: new Date().toLocaleString('de-DE', { timeZone: 'Europe/Berlin' })
+      });
+      setFoodRating(0);
+      setHostRating(0);
+      setGeneralRating(0);
+      setComment('');
+    } catch (e) {
+      alert('Fehler beim Speichern der Bewertung');
+    }
+    setLoading(false);
+  }
 
   return (
     <View style={styles.container}>
@@ -86,24 +118,31 @@ const EvaluationView = ({value}) => {
 
             <Spacer height={10}/>
 
-            <View style={styles.evaluationRow}>
+            <View style={styles.ratingRow}>
               <Text style={styles.blockHeading}>Essen</Text>
               <StarRating rating={foodRating} onChange={setFoodRating} size={20} />
             </View>
 
-            <View style={styles.evaluationRow}>
+            <View style={styles.ratingRow}>
               <Text style={styles.blockHeading}>Gastgeber </Text>
               <StarRating rating={hostRating} onChange={setHostRating} size={20} />
             </View>
 
-            <View style={styles.evaluationRow}>
+            <View style={styles.ratingRow}>
               <Text style={styles.blockHeading}>Allgemein </Text>
               <StarRating rating={generalRating} onChange={setGeneralRating} size={20} />
             </View>
 
             <View style={styles.block}>
               <Text>Kommentar</Text>
-              <TextInput style={styles.textInput} multiline numberOfLines={3} textAlignVertical='top'/>
+              <TextInput
+                style={styles.textInput}
+                multiline
+                numberOfLines={3}
+                textAlignVertical='top'
+                value={comment}
+                onChangeText={setComment}
+              />
             </View>
 
             <View style={styles.buttongroup}>
@@ -113,8 +152,9 @@ const EvaluationView = ({value}) => {
                 theme="white"
               />
               <BasicButton
-                onPress={() => router.navigate('..')}
-                title={"Speichern"}
+                onPress={handleSave}
+                disabled={loading}
+                title={loading ? "Speichert..." : "Speichern"}
               />
             </View>
           </View>
@@ -124,7 +164,7 @@ const EvaluationView = ({value}) => {
   )
 }
 
-export default EvaluationView
+export default RatingView
 
 const styles = StyleSheet.create({
   container: {
@@ -181,12 +221,12 @@ const styles = StyleSheet.create({
     fontSize: 11,
     alignSelf: "center"
   },
-  evaluation: {
+  rating: {
     borderColor: Colors.outline,
     paddingVertical: 8,
     paddingHorizontal: 24
   },
-  evaluationRow: {
+  ratingRow: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 10,

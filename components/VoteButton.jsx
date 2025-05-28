@@ -1,8 +1,8 @@
 import { StyleSheet, Pressable, Text, View } from 'react-native'
-import React, { useContext, useState } from 'react'
+import { useState } from 'react'
 import { Ionicons } from '@expo/vector-icons'
 import { Colors } from '../constants/Colors';
-import { EventsContext } from '../contexts/EventsContext';
+import { useEvents } from '../hooks/useEvents';
 import { useUser } from '../hooks/useUser';
 
 /**
@@ -14,7 +14,7 @@ import { useUser } from '../hooks/useUser';
  * @param {Array} props.items
  */
 const VoteButton = ({ votes, eventId, type, index, items, disabled }) => {
-    const { updateEvent } = useContext(EventsContext);
+    const { updateEvent } = useEvents();
     const { user } = useUser();
     const userId = user?.$id;
     const item = typeof items[index] === "string" ? JSON.parse(items[index]) : items[index];

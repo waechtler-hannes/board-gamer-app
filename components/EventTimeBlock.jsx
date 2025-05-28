@@ -2,7 +2,6 @@ import { Text, View } from 'react-native'
 
 const EventTimeBlock = ({ value, styles }) => {
   const date = new Date(value.datetime)
-  date.setHours(date.getHours() - 2)
   return (
     <View style={styles.block}>
       <Text style={styles.boldText}>Uhrzeit</Text>

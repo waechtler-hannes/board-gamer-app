@@ -1,11 +1,11 @@
-import { useContext, useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { StyleSheet, Pressable, Text, View, TextInput, Keyboard } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
 import { Colors } from '../constants/Colors';
-import { EventsContext } from '../contexts/EventsContext';
+import { useEvents } from '../hooks/useEvents';
 
 const AddVoteable = ({ eventId, type, currentItems }) => {
-    const { updateEvent } = useContext(EventsContext);
+    const { updateEvent } = useEvents();
     const [input, setInput] = useState("");
     const [isPressed, setIsPressed] = useState(false);
     const [loading, setLoading] = useState(false);

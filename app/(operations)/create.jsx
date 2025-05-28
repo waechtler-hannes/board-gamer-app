@@ -34,8 +34,8 @@ const Create = () => {
     const voteEnd = new Date(eventDate);
     voteEnd.setDate(voteEnd.getDate() - 2);
     await createEvent({
-      datetime: `${date} ${time}`,
-      voteEnd: voteEnd.toISOString(),
+      datetime: eventDate,
+      voteEnd: voteEnd,
       host,
       description: description.trim() ? description : "Es wurde keine Beschreibung angegeben."
     })

@@ -40,7 +40,7 @@ const InteractionsLayout = () => {
         }}
       >
         <Tabs.Screen
-          name="evaluation"
+          name="ratings"
           options={{ title: "Bewertung", tabBarIcon: ({ focused }) => (
             <Ionicons
               size={24}

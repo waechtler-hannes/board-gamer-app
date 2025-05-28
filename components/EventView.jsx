@@ -16,9 +16,8 @@ const EventView = ({ value }) => {
   const [now, setNow] = useState(new Date())
 
   const eventDate = new Date(value.datetime)
-  eventDate.setHours(eventDate.getHours() - 2)
   const votingEnd = new Date(eventDate.getTime())
-  votingEnd.setDate(votingEnd.getDate() - 2)
+  votingEnd.setDate(votingEnd.getDate() - 2) // Ende des Votings festlegen (-2 Tage)
   const votingOver = now > votingEnd
 
   useEffect(() => {

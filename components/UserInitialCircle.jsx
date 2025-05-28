@@ -1,4 +1,3 @@
-import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { useUser } from '../hooks/useUser';
 import { Colors } from '../constants/Colors';

@@ -17,7 +17,7 @@ const index = () => {
 
       <Spacer height={20}/>
       <Link style={styles.link} href="/events" >Events</Link>
-      <Link style={styles.link} href="/evaluation" >Bewertung</Link>
+      <Link style={styles.link} href="/ratings" >Bewertung</Link>
       <Spacer height={20}/>
 
       <Link style={styles.link} href="/register" >Registrierung</Link>
