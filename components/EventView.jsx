@@ -20,10 +20,10 @@ const EventView = ({ value }) => {
   votingEnd.setDate(votingEnd.getDate() - 2) // Ende des Votings festlegen (-2 Tage)
   const votingOver = now > votingEnd
 
-  useEffect(() => {
+  /*useEffect(() => {
     const interval = setInterval(() => setNow(new Date()), 1000 * 30)
     return () => clearInterval(interval)
-  }, [])
+  }, [])*/
 
   const listRef = useAnimatedRef()
   const heightValue = useSharedValue(0)

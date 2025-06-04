@@ -3,10 +3,9 @@ import { RatingContext } from '../contexts/RatingContext'
 
 export function useRatings() {
     const context = useContext(RatingContext)
-
+    
     if (!context) {
         throw new Error("useRatings must be used within a RatingProvider")
     }
-    
     return context
 }
