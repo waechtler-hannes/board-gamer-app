@@ -1,14 +1,15 @@
-import { Pressable, StyleSheet, Text, View, TextInput } from 'react-native'
+import { Pressable, StyleSheet, Text, View } from 'react-native'
 import { useState, useEffect } from 'react'
-import Animated, { interpolate, measure, runOnUI, useAnimatedRef, useAnimatedStyle, useDerivedValue, useSharedValue, withTiming } from 'react-native-reanimated';
+import Animated, { interpolate, measure, runOnUI, useAnimatedRef, useAnimatedStyle, useDerivedValue, useSharedValue, withTiming } from 'react-native-reanimated'
 import { Ionicons } from '@expo/vector-icons'
 import { Colors } from '../constants/Colors'
 import { useRatings } from '../hooks/useRatings'
 import { useUser } from '../hooks/useUser'
-import BasicButton from './BasicButton'
+
+//Eigene Komponenten
 import HostIconCircle from './HostIconCircle'
-import Spacer from './Spacer'
-import StarRating from './StarRating'
+import RatingSummaryBlock from './RatingSummaryBlock'
+import RatingInputBlock from './RatingInputBlock'
 
 const ratingFields = [
   { key: 'food', label: 'Essen' },
@@ -25,52 +26,14 @@ const RatingView = ({ value }) => {
     height: interpolate(progress.value, [0, 1], [0, heightValue.value])
   }));
 
-  const [ratingsInput, setRatingsInput] = useState({ food: 0, host: 0, general: 0 });
-  const [comment, setComment] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
   const { user } = useUser();
   const { ratingsByEvent, fetchRatings, createRating } = useRatings();
   const eventRatings = ratingsByEvent[value.$id] || [];
-
-  useEffect(() => { fetchRatings(value.$id); }, [submitted, value.$id]);
-
-  const average = eventRatings.length
-    ? ratingFields.reduce((acc, { key }) => ({
-        ...acc,
-        [key]: (eventRatings.reduce((sum, r) => sum + (r[`${key}Rating`] || 0), 0) / eventRatings.length).toFixed(1)
-      }), {})
-    : null;
-
   const hasRated = user && eventRatings.some(r => r.userId === user.$id);
 
-  const handleRatingChange = (key, val) => setRatingsInput(r => ({ ...r, [key]: val }));
-
-  async function handleSave() {
-    if (!user || loading) return;
-    setLoading(true);
-    try {
-      await createRating({
-        eventId: value.$id,
-        userId: user.$id,
-        userName: user.name,
-        foodRating: ratingsInput.food,
-        hostRating: ratingsInput.host,
-        generalRating: ratingsInput.general,
-        comment,
-        createdAt: new Date().toISOString()
-      });
-      setRatingsInput({ food: 0, host: 0, general: 0 });
-      setComment('');
-      setSubmitted(!submitted);
-    } catch {
-      alert('Fehler beim Speichern der Bewertung');
-    }
-    setLoading(false);
-  }
-
+  useEffect(() => { fetchRatings(value.$id); }, [value.$id]);
   useEffect(() => {
     if (isOpen) {
       runOnUI(() => { "worklet"; heightValue.value = measure(listRef).height; })();
@@ -102,87 +65,26 @@ const RatingView = ({ value }) => {
       </Pressable>
       <Animated.View style={heightAnimationStyle}>
         <Animated.View ref={listRef} style={styles.absFullWidth}>
-          <View>
-            {hasRated ? (
-              <View style={[styles.block, styles.summaryBlock]}>
-                <Spacer height={15} />
-                <Text style={styles.summaryTitle}>Zusammenfassung des Abends:</Text>
-                {average ? (
-                  <>
-                    {ratingFields.map(({ key, label }) => (
-                      <View key={key} style={styles.ratingRow}>
-                        <Text style={styles.ratingLabel}>{label}</Text>
-                        <StarRating rating={Number(average[key])} size={22} readonly starColor={Colors.primary} emptyStarColor={Colors.primary} />
-                        <Text style={styles.ratingValue}>({average[key]})</Text>
-                      </View>
-                    ))}
-                    <Text style={styles.ratingCount}>({eventRatings.length} Bewertungen)</Text>
-                  </>
-                ) : (
-                  <Text style={styles.noRatings}>Keine Bewertungen vorhanden.</Text>
-                )}
-                <Text style={styles.commentsTitle}>Kommentare</Text>
-                {eventRatings.filter(r => r.comment?.trim()).length === 0 ? (
-                  <Text style={styles.noComments}>Keine Kommentare vorhanden.</Text>
-                ) : (
-                  eventRatings.filter(r => r.comment?.trim()).map((r, idx) => (
-                    <View key={r.$id || idx} style={styles.commentBox}>
-                      <Text style={styles.commentText}>{r.comment}</Text>
-                      <Text style={styles.commentMeta}>
-                        {r.userName || 'Unbekannt'},{' '}
-                        {r.createdAt ? new Date(r.createdAt).toLocaleString('de-DE', {
-                          day: '2-digit', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit'
-                        }) : ''}
-                      </Text>
-                    </View>
-                  ))
-                )}
-              </View>
-            ) : (
-              <>
-                <View style={[styles.block, styles.noBorder]}>
-                  <Spacer height={15} />
-                  <Text style={styles.bold}>Wie hat dir der Abend gefallen?</Text>
-                  <Text>Bitte bewerte das Essen, den Gastgeber sowie die allgemeine Stimmung des Abends:</Text>
-                </View>
-                <Spacer height={10} />
-                {ratingFields.map(({ key, label }) => (
-                  <View style={[styles.row, styles.block]} key={key}>
-                    <Text style={styles.bold}>{label}</Text>
-                    <StarRating rating={ratingsInput[key]} onChange={v => handleRatingChange(key, v)} size={20} />
-                  </View>
-                ))}
-                <View style={styles.block}>
-                  <Text>Kommentar</Text>
-                  <TextInput
-                    style={styles.input}
-                    multiline
-                    numberOfLines={3}
-                    textAlignVertical='top'
-                    value={comment}
-                    onChangeText={setComment}
-                  />
-                </View>
-                <View style={[styles.row, styles.buttonRow]}>
-                  <BasicButton
-                    onPress={() => {
-                      setRatingsInput({ food: 0, host: 0, general: 0 });
-                      setComment('');
-                      open.value = false;
-                      setIsOpen(false);
-                    }}
-                    title={"Abbrechen"}
-                    theme="white"
-                  />
-                  <BasicButton
-                    onPress={handleSave}
-                    disabled={loading}
-                    title={loading ? "Speichert..." : "Speichern"}
-                  />
-                </View>
-              </>
-            )}
-          </View>
+          {hasRated ? (
+            <RatingSummaryBlock
+              eventRatings={eventRatings}
+              ratingFields={ratingFields}
+              styles={styles}
+            />
+          ) : (
+            <RatingInputBlock
+              eventId={value.$id}
+              user={user}
+              createRating={createRating}
+              ratingFields={ratingFields}
+              styles={styles}
+              onCancel={() => {
+                open.value = false
+                setIsOpen(false)
+              }}
+              fetchRatings={fetchRatings}
+            />
+          )}
         </Animated.View>
       </Animated.View>
     </View>
@@ -293,7 +195,7 @@ const styles = StyleSheet.create({
     marginBottom: 14,
     width: '100%'
   },
-  commentText:{
+  commentText: {
     color: 'white',
     fontSize: 16,
     marginBottom: 10

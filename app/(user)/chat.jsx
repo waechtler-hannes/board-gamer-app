@@ -1,110 +1,186 @@
-import { StyleSheet, Text, View, FlatList, TextInput, TouchableOpacity } from 'react-native';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { Keyboard, KeyboardAvoidingView, Platform, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { useChat } from '../../hooks/useChat';
+import { useUser } from '../../hooks/useUser';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import { FlashList } from '@shopify/flash-list';
 import { Colors } from '../../constants/Colors';
+import HostIconCircle from '../../components/HostIconCircle';
+
+const formatTime = dateStr =>
+  new Date(dateStr).toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' });
 
 const Chat = () => {
-const [messages, setMessages] = useState([
-    { id: '1', text: 'Hallo! Wie geht es dir?', sender: 'user' },
-    { id: '2', text: 'Mir geht es gut, danke! Und dir?', sender: 'other' },
-  ]);
-  const [inputText, setInputText] = useState('');
+  const { messages, sendMessage, flatListRef } = useChat();
+  const { user } = useUser();
+  const [input, setInput] = useState('');
+  const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
 
-  const sendMessage = () => {
-    if (inputText.trim()) {
-      setMessages((prevMessages) => [
-        ...prevMessages,
-        { id: Date.now().toString(), text: inputText, sender: 'user' },
-      ]);
-      setInputText('');
-    }
+  useEffect(() => {
+    const show = Keyboard.addListener('keyboardDidShow', () => setIsKeyboardVisible(true));
+    const hide = Keyboard.addListener('keyboardDidHide', () => setIsKeyboardVisible(false));
+    return () => { show.remove(); hide.remove(); };
+  }, []);
+
+  useEffect(() => {
+    if (flatListRef?.current && messages.length)
+      flatListRef.current.scrollToIndex({ index: messages.length - 1, animated: true });
+  }, [messages, isKeyboardVisible]);
+
+  const handleSend = async () => {
+    if (!input.trim()) return;
+    await sendMessage(input);
+    setInput('');
   };
 
-  const renderMessage = ({ item }) => (
-    <View
-      style={
-        item.sender === 'user' ? styles.userMessage : styles.otherMessage
-      }>
-      <Text style={styles.messageText}>{item.text}</Text>
-    </View>
-  );
+  const renderItem = ({ item }) => {
+    const isOwn = item.userId === user?.$id;
+    return (
+      <View style={[styles.msgRow, isOwn ? styles.msgRowOwn : styles.msgRowOther]}>
+        {!isOwn && (
+          <HostIconCircle hostName={item.userName} style={styles.avatar}/>
+        )}
+        <View style={[
+          styles.bubble,
+          isOwn ? styles.bubbleOwn : styles.bubbleOther
+        ]}>
+          {!isOwn && <Text style={styles.userName}>{item.userName}</Text>}
+          <View style={styles.msgTextRow}>
+            <Text style={styles.msgText}>{item.text}</Text>
+            <Text style={styles.timeText}>{formatTime(item.createdAt)}</Text>
+          </View>
+        </View>
+      </View>
+    );
+  };
 
   return (
     <View style={styles.container}>
-      <FlatList
-        data={messages}
-        renderItem={renderMessage}
-        keyExtractor={(item) => item.id}
-        contentContainerStyle={styles.chatContainer}
-      />
-      <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.input}
-          value={inputText}
-          onChangeText={setInputText}
-          placeholder="Nachricht schreiben..."
-        />
-        <TouchableOpacity style={styles.sendButton} onPress={sendMessage}>
-          <Text style={styles.sendButtonText}>Senden</Text>
-        </TouchableOpacity>
-      </View>
+      <KeyboardAvoidingView
+        style={styles.container}
+        behavior="padding"
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 120}
+        enabled={isKeyboardVisible}
+      >
+        <View style={styles.container}>
+          <FlashList
+            ref={flatListRef}
+            data={messages}
+            keyExtractor={item => item.$id}
+            renderItem={renderItem}
+            contentContainerStyle={styles.listContent}
+            showsVerticalScrollIndicator={false}
+            keyboardShouldPersistTaps="handled"
+            estimatedItemSize={80}
+          />
+          <View style={styles.inputRow}>
+            <TextInput
+              style={styles.input}
+              value={input}
+              onChangeText={setInput}
+              placeholder="Nachricht eingeben.."
+              onSubmitEditing={handleSend}
+              returnKeyType="send"
+            />
+            <TouchableOpacity style={styles.sendBtn} onPress={handleSend}>
+              <Ionicons name="send" size={22} color={Colors.surface} />
+            </TouchableOpacity>
+          </View>
+        </View>
+      </KeyboardAvoidingView>
     </View>
   );
 };
 
+export default Chat;
+
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: 'white',
+    flex: 1
   },
-  chatContainer: {
-    padding: 10,
+  listContent: {
+    padding: 10
   },
-  userMessage: {
-    alignSelf: 'flex-end',
-    backgroundColor: Colors.primary,
-    borderRadius: 10,
-    padding: 10,
-    marginVertical: 5,
-    maxWidth: '80%',
-  },
-  otherMessage: {
-    alignSelf: 'flex-start',
-    backgroundColor: Colors.secondary,
-    borderRadius: 10,
-    padding: 10,
-    marginVertical: 5,
-    maxWidth: '80%',
-  },
-  messageText: {
-    color: 'white',
-  },
-  inputContainer: {
+  msgTextRow: {
     flexDirection: 'row',
+    alignItems: 'flex-end',
+    justifyContent: 'flex-start',
+    flexWrap: 'wrap'
+  },
+  msgText: {
+    fontSize: 15,
+    color: Colors.text,
+    flexShrink: 1,
+    marginRight: 10
+  },
+  timeText: {
+    color: Colors.grey,
+    fontSize: 11,
+    alignSelf: 'flex-end'
+  },
+  msgRow: {
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    marginBottom: 10
+  },
+  msgRowOwn: {
+    justifyContent: 'flex-end'
+  },
+  msgRowOther: {
+    justifyContent: 'flex-start'
+  },
+  avatar: {
+    width: 32,
+    height: 32,
+    borderWidth: 1,
+    marginRight: 8
+  },
+  bubble: {
+    maxWidth: '75%',
+    borderRadius: 12,
     padding: 10,
-    borderTopWidth: 1,
-    borderColor: '#ccc',
+    minHeight: 40,
+    justifyContent: 'center'
+  },
+  bubbleOther: {
+    backgroundColor: Colors.surface,
+    borderColor: Colors.outline,
+    borderWidth: 1,
+    alignItems: 'flex-start'
+  },
+  bubbleOwn: {
+    backgroundColor: Colors.primaryContainer,
+    alignItems: 'flex-end'
+  },
+  userName: {
+    color: Colors.primary,
+    fontWeight: 'bold',
+    marginBottom: 2,
+    fontSize: 13
+  },
+  inputRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 20,
+    paddingTop: 10,
+    paddingBottom: 30,
+    backgroundColor: 'transparent'
   },
   input: {
     flex: 1,
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: Colors.grey,
     borderRadius: 20,
-    paddingHorizontal: 15,
-    height: 40,
+    padding: 10,
+    backgroundColor: Colors.surface,
+    color: Colors.text,
+    marginRight: 8
   },
-  sendButton: {
-    marginLeft: 10,
-    backgroundColor: Colors.primary,
+  sendBtn: {
+    backgroundColor: Colors.primaryContainer,
     borderRadius: 20,
+    padding: 8,
     justifyContent: 'center',
-    alignItems: 'center',
-    paddingHorizontal: 15,
-    height: 40,
-  },
-  sendButtonText: {
-    color: 'white',
-    fontWeight: 'bold',
-  },
+    alignItems: 'center'
+  }
 });
-
-export default Chat;

@@ -1,11 +1,11 @@
 import { View, Text, StyleSheet } from 'react-native';
 import { Colors } from '../constants/Colors';
 
-const HostIconCircle = ({ hostName }) => {
+const HostIconCircle = ({ hostName, style }) => {
   const hostInitial = hostName?.charAt(0).toUpperCase() || '?';
 
   return (
-    <View style={styles.circle}>
+    <View style={[styles.circle, style]}>
       <Text style={styles.initial}>{hostInitial}</Text>
     </View>
   );
