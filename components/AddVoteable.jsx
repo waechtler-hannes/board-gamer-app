@@ -1,8 +1,12 @@
 import { useState, useEffect, useRef } from 'react'
 import { StyleSheet, Pressable, Text, View, TextInput, Keyboard } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
-import { Colors } from '../constants/Colors';
+
+//Hooks
 import { useEvents } from '../hooks/useEvents';
+
+//Konstanten
+import { Colors } from '../constants/Colors';
 
 const AddVoteable = ({ eventId, type, currentItems }) => {
     const { updateEvent } = useEvents();
@@ -26,6 +30,16 @@ const AddVoteable = ({ eventId, type, currentItems }) => {
 
     async function uploadVoteable() {
         if (!input.trim() || loading) return;
+
+        const exists = (currentItems || []).some(item => {
+            const obj = typeof item === "string" ? JSON.parse(item) : item;
+            return obj.name.trim().toLowerCase() === input.trim().toLowerCase();
+        });
+        if (exists) {
+            setInput("");
+            return;
+        }
+
         setLoading(true);
         const newItem = JSON.stringify({ name: input.trim(), votes: 0 });
         const updatedItems = [...(currentItems || []), newItem];

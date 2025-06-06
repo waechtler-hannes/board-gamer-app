@@ -1,9 +1,16 @@
+import { useEffect } from 'react'
 import { Pressable, StyleSheet, View } from 'react-native'
-import { useEffect, useState } from 'react'
-import { Ionicons } from '@expo/vector-icons'
-import { Colors } from '../constants/Colors'
 import Animated, { Extrapolation, interpolate, measure, runOnUI, useAnimatedRef, useAnimatedStyle, useDerivedValue, useSharedValue, withTiming } from 'react-native-reanimated'
 import { router } from 'expo-router'
+import { Ionicons } from '@expo/vector-icons'
+
+//Hooks
+import { useUser } from '../hooks/useUser';
+
+//Konstanten
+import { Colors } from '../constants/Colors'
+
+//Eigene Komponenten
 import HostIconCircle from '../components/HostIconCircle'
 import EventHeader from './EventHeader'
 import EventTimeBlock from './EventTimeBlock'
@@ -13,17 +20,12 @@ import EventVoteBlock from './EventVoteBlock'
 import EventVotingInfo from './EventVotingInfo'
 
 const EventView = ({ value }) => {
-  const [now, setNow] = useState(new Date())
-
+  const { user } = useUser();
+  const now = new Date()
   const eventDate = new Date(value.datetime)
   const votingEnd = new Date(eventDate.getTime())
   votingEnd.setDate(votingEnd.getDate() - 2) // Ende des Votings festlegen (-2 Tage)
   const votingOver = now > votingEnd
-
-  /*useEffect(() => {
-    const interval = setInterval(() => setNow(new Date()), 1000 * 30)
-    return () => clearInterval(interval)
-  }, [])*/
 
   const listRef = useAnimatedRef()
   const heightValue = useSharedValue(0)
@@ -61,14 +63,16 @@ const EventView = ({ value }) => {
           open.value = !open.value
         }}
       >
-        <HostIconCircle hostName={value.host.name} />
-        <EventHeader value={value} now={now} styles={styles} />
-        <Ionicons
-          size={24}
-          name="create"
-          style={styles.icon}
-          onPress={() => router.navigate('/edit')}
-        />
+        <HostIconCircle hostName={value.host.name}/>
+        <EventHeader value={value} now={now} styles={styles}/>
+        {user?.$id === value.host.userId && (
+          <Ionicons
+            size={24}
+            name="create"
+            style={styles.icon}
+            onPress={() => router.navigate({ pathname: '/edit', params: { id: value.$id } })}
+          />
+        )}
       </Pressable>
       <Animated.View style={heightAnimationStyle}>
         <Animated.View ref={listRef} style={styles.absFullWidth}>

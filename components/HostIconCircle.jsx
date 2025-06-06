@@ -5,7 +5,7 @@ const HostIconCircle = ({ hostName, style }) => {
   const hostInitial = hostName?.charAt(0).toUpperCase() || '?';
 
   return (
-    <View style={[styles.circle, style]}>
+    <View style={style ? [styles.circle, style] : styles.circle}>
       <Text style={styles.initial}>{hostInitial}</Text>
     </View>
   );
