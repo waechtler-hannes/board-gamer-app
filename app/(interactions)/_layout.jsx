@@ -17,7 +17,7 @@ const InteractionsLayout = () => {
           headerTitleAlign: "center",
           headerTintColor: Colors.primaryText,
           tabBarActiveTintColor: Colors.primary,
-          tabBarInactiveTintColor: Colors.primaryDark,
+          tabBarInactiveTintColor: Colors.grey,
           tabBarHideOnKeyboard: true,
           tabBarLabelStyle: {
             fontSize: 12
@@ -45,7 +45,7 @@ const InteractionsLayout = () => {
             <Ionicons
               size={24}
               name={focused ? "star" : "star-outline"}
-              color={focused ? Colors.primary : Colors.primaryDark}
+              color={focused ? Colors.primary : Colors.grey}
             />
           ) }}
         />
@@ -55,7 +55,7 @@ const InteractionsLayout = () => {
             <Ionicons
               size={24}
               name={focused ? "calendar" : "calendar-outline"}
-              color={focused ? Colors.primary : Colors.primaryDark}
+              color={focused ? Colors.primary : Colors.grey}
             />
           ) }}
         />
