@@ -26,7 +26,7 @@ const InteractionsLayout = () => {
             backgroundColor: Colors.primary
           },
           tabBarStyle: {
-            height: 99
+            height: 60
           },
           tabBarItemStyle: {
             flexDirection: "row",

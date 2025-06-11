@@ -1,27 +1,23 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { Keyboard, TextInput, StyleSheet, Text, View, Image, TouchableWithoutFeedback, KeyboardAvoidingView } from 'react-native'
 import { Link } from 'expo-router'
-import { useUser } from '../../hooks/useUser'
-
-//Konstanten
-import { Colors } from '../../constants/Colors'
-
-//Eigene Komponenten
-import BasicButton from '../../components/BasicButton'
-import Spacer from '../../components/Spacer'
+import { useUser } from '../../hooks/useUser.js'
+import { account } from '../../lib/appwrite.js'
+import { Colors } from '../../constants/Colors.js'
+import BasicButton from '../../components/BasicButton.jsx'
+import Spacer from '../../components/Spacer.jsx'
 import Logo from '../../assets/img/logo.png'
+import HideWithKeyboard from 'react-native-hide-with-keyboard'
 
-const Login = () => {
-
-  const [email, setEmail] = useState ('')
-  const [password, setPassword] = useState ('')
+const Index = () => {
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
   const [error, setError] = useState(null)
-
   const { login } = useUser()
+  const passwordRef = useRef(null)
 
   const handleSubmit = async () => {
     setError(null)
-
     try {
       await login(email, password)
     } catch (error) {
@@ -32,50 +28,55 @@ const Login = () => {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.container}>
-
         <Text style={styles.header}>Login</Text>
-
         <Image source={Logo} style={styles.image}/>
-
-        <KeyboardAvoidingView behavior='padding' style={{width: "100%", alignItems: "center"}}>
+        <KeyboardAvoidingView behavior='padding' style={{width: "100%", alignItems: "center", justifyContent: "center"}}>
           <TextInput
             style={styles.textInput}
-            placeholder="Email" 
+            placeholder="Email"
+            placeholderTextColor={Colors.placeholder}
             keyboardType="email-address"
             onChangeText={setEmail}
             value={email}
+            returnKeyType="next"
+            onSubmitEditing={() => passwordRef.current && passwordRef.current.focus()}
           />
           <Spacer height={20}/>
           <TextInput
-            style={styles.textInput} 
-            placeholder="Passwort" 
+            ref={passwordRef}
+            style={styles.textInput}
+            placeholder="Passwort"
+            placeholderTextColor={Colors.placeholder}
             onChangeText={setPassword}
             value={password}
             secureTextEntry
+            returnKeyType="done"
+            onSubmitEditing={handleSubmit}
           />
           <BasicButton
             onPress={handleSubmit}
             title="Login"
             style={{ width: "50%", marginVertical: 30 }}
           />
-          {error && <Text style={styles.error}>{error}</Text>}
         </KeyboardAvoidingView>
-
-        <Text style={styles.link}>Kein Konto? Hier gehts zur <Link href="/register" style={{color: Colors.primary}} >Registrierung</Link>.</Text>
-        <Spacer/>
-
+        {error && <Text style={styles.error}>{error}</Text>}
+        <HideWithKeyboard>
+          <Text style={styles.link}>Kein Konto? Hier gehts zur <Link href="/register" style={{color: Colors.primary}} >Registrierung</Link>.</Text>
+          <Spacer/>
+        </HideWithKeyboard>
       </View>
     </TouchableWithoutFeedback>
   );
-};
+}
 
-export default Login
+export default Index
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: "center"
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 100
   },
   header: {
     fontSize: 30,
@@ -93,7 +94,8 @@ const styles = StyleSheet.create({
     width: "80%",
     borderWidth: 1,
     borderRadius: 8,
-    borderColor: Colors.outline
+    borderColor: Colors.outline,
+    color: "black"
   },
   link: {
     marginTop: 50

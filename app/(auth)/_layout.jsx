@@ -1,4 +1,4 @@
-import { StatusBar } from 'react-native'
+import { StatusBar } from 'expo-status-bar'
 import { Stack } from 'expo-router'
 
 //Eigene Komponenten
@@ -8,7 +8,7 @@ export default function UserLayout() {
 
   return (
     <GuestOnly>
-      <StatusBar barStyle="dark-content" />
+      <StatusBar style="dark" />
       <Stack screenOptions={{ headerShown: false }}></Stack>
     </GuestOnly>
   )

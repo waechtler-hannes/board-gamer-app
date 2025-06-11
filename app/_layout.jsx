@@ -1,4 +1,4 @@
-import { StatusBar } from 'react-native'
+import { StatusBar } from 'expo-status-bar'
 import { Stack } from 'expo-router'
 import { UserProvider } from '../contexts/UserContext'
 import { HostsProvider } from '../contexts/HostContext'
@@ -11,7 +11,7 @@ const RootLayout = () => {
       <HostsProvider>
         <EventsProvider>
           <RatingProvider>
-            <StatusBar barStyle="light-content"/>
+            <StatusBar style="light"/>
             <Stack screenOptions={{ headerShown: false }}>
               <Stack.Screen name="(auth)"/>
               <Stack.Screen name="(interactions)"/>

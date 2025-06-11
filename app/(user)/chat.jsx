@@ -79,6 +79,7 @@ const Chat = () => {
               value={input}
               onChangeText={setInput}
               placeholder="Nachricht eingeben.."
+              placeholderTextColor={Colors.placeholder}
               onSubmitEditing={handleSend}
               returnKeyType="send"
             />

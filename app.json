@@ -26,6 +26,12 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "b0b1b3ba-0095-47a8-bb5b-41a19200e4f4"
+      }
+    },
+    "owner": "regina-hannes"
   }
 }

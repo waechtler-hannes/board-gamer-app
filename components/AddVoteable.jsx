@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { StyleSheet, Pressable, Text, View, TextInput, Keyboard } from 'react-native'
+import { StyleSheet, KeyboardAvoidingView, Pressable, Text, View, TextInput, Keyboard, Platform } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
 
 //Hooks
@@ -51,7 +51,10 @@ const AddVoteable = ({ eventId, type, currentItems }) => {
 
     return (
         isPressed ? (
-            <View style={[styles.container, styles.form]}>
+            <KeyboardAvoidingView
+                style={[styles.container, styles.form]}
+                behavior={Platform.OS === "ios" ? "padding" : "height"}
+            >
                 <TextInput
                     ref={inputRef}
                     style={styles.input}
@@ -62,7 +65,7 @@ const AddVoteable = ({ eventId, type, currentItems }) => {
                     onSubmitEditing={uploadVoteable}
                     onBlur={() => setIsPressed(false)}
                 />
-            </View>
+            </KeyboardAvoidingView>
         ) : (
             <Pressable style={styles.container} onPress={() => setIsPressed(true)}>
                 <View style={styles.getInputButton}>
@@ -101,6 +104,7 @@ const styles = StyleSheet.create({
         flexGrow: 1
     },
     form: {
+        flex: 1,
         flexDirection: "row",
         gap: 5
     },
