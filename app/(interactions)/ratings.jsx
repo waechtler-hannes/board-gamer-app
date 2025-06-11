@@ -1,4 +1,6 @@
 import { StyleSheet, KeyboardAvoidingView, FlatList, Platform } from 'react-native'
+
+//Hooks
 import { useEvents } from '../../hooks/useEvents'
 
 //Eigene Komponenten

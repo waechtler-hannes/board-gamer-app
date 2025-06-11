@@ -1,4 +1,6 @@
 import { View, Text } from 'react-native'
+
+//Eigene Komponenten
 import Spacer from './Spacer'
 import StarRating from './StarRating'
 

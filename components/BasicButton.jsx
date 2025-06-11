@@ -1,5 +1,6 @@
-import React from 'react';
 import { StyleSheet, Text, Pressable } from 'react-native';
+
+//Konstanten
 import { Colors } from '../constants/Colors';
 
 const BasicButton = ({ onPress, title, style = {}, theme = 'pink', disabled = false }) => {

@@ -65,11 +65,11 @@ const Edit = () => {
 
             <Text style={styles.heading}>Ort</Text>
             <TextInput
-              style={[styles.input, { backgroundColor: "#eee", color: "#777" }]}
+              style={[styles.input, { backgroundColor: "#eee", color: Colors.placeholder }]}
               value={address}
               editable={false}
               placeholder="Standort des Hosts"
-              placeholderTextColor={styles.placeholder.color}
+              placeholderTextColor={Colors.placeholder}
             />
 
             <Text style={styles.heading}>Beschreibung</Text>
@@ -81,7 +81,7 @@ const Edit = () => {
               value={description}
               onChangeText={setDescription}
               placeholder="Beschreibung"
-              placeholderTextColor={styles.placeholder.color}
+              placeholderTextColor={Colors.placeholder}
             />
           </View>
           <View style={styles.buttongroup}>
@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
     marginVertical: 6,
     borderColor: Colors.outline,
     borderWidth: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "white",
     borderRadius: 8,
     padding: 9,
     flexDirection: "row",
@@ -126,11 +126,8 @@ const styles = StyleSheet.create({
   },
   inputText: {
     flex: 1,
-    color: "#222",
+    color: "black",
     fontSize: 14
-  },
-  placeholder: {
-    color: "#aaa"
   },
   buttongroup: {
     flexDirection: "row",

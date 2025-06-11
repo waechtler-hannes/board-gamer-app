@@ -1,3 +1,4 @@
+import { SafeAreaView } from 'react-native-safe-area-context'
 import { Stack } from 'expo-router'
 
 //Konstanten
@@ -5,7 +6,6 @@ import { Colors } from '../../constants/Colors'
 
 //Eigene Komponenten
 import UserOnly from '../../components/auth/UserOnly'
-import { SafeAreaView } from 'react-native-safe-area-context'
 
 const OperationsLayout = () => {
   return (

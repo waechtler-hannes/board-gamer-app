@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react'
 import { Keyboard, StyleSheet, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native'
 import { router } from 'expo-router'
 import { Ionicons } from '@expo/vector-icons'
+
+//Hooks
 import { useUser } from '../../hooks/useUser'
 import { useHosts } from '../../hooks/useHosts'
 

@@ -1,5 +1,7 @@
 import { View } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
+
+//Konstanten
 import { Colors } from '../constants/Colors'
 
 const StarRating = ({ rating, onChange, size = 20, readonly = false, starColor, emptyStarColor }) => (

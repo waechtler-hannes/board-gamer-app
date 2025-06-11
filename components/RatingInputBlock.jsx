@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import { View, Text, TextInput } from 'react-native'
+
+//Eigene Komponenten
 import Spacer from './Spacer'
 import StarRating from './StarRating'
 import BasicButton from './BasicButton'

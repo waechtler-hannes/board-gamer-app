@@ -1,13 +1,12 @@
+import { SafeAreaView } from 'react-native-safe-area-context'
 import { Stack } from 'expo-router'
-import { ChatProvider } from '../../contexts/ChatContext'
-import { Platform, StatusBar } from 'react-native'
 
 //Konstanten
 import { Colors } from '../../constants/Colors'
 
 //Eigene Komponenten
 import UserOnly from '../../components/auth/UserOnly'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { ChatProvider } from '../../contexts/ChatContext'
 
 const UserLayout = () => {
   return (

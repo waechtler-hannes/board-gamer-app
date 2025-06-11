@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import { Pressable, Text } from 'react-native'
-import { Ionicons } from '@expo/vector-icons'
 import DateTimePicker from '@react-native-community/datetimepicker'
+import { Ionicons } from '@expo/vector-icons'
+import { Colors } from '../constants/Colors'
 
 export default function TimePickerField({ value, setValue, style }) {
   const [show, setShow] = useState(false)
@@ -12,7 +13,7 @@ export default function TimePickerField({ value, setValue, style }) {
         <Text style={[style.inputText, !value && style.placeholder]}>
           {value || "Uhrzeit auswählen"}
         </Text>
-        <Ionicons name="time-outline" size={20} color="#888" style={{ marginLeft: 8 }} />
+        <Ionicons name="time-outline" size={20} color={Colors.placeholder} style={{ marginLeft: 8 }} />
       </Pressable>
       {show && (
         <DateTimePicker

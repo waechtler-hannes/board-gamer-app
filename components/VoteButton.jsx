@@ -1,9 +1,13 @@
-import { StyleSheet, Pressable, Text, View } from 'react-native'
 import { useState } from 'react'
+import { StyleSheet, Pressable, Text, View } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
-import { Colors } from '../constants/Colors';
-import { useEvents } from '../hooks/useEvents';
+
+//Hooks
 import { useUser } from '../hooks/useUser';
+import { useEvents } from '../hooks/useEvents';
+
+//Konstanten
+import { Colors } from '../constants/Colors';
 
 /**
  * @param {Object} props

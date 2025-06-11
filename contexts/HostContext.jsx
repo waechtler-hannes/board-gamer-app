@@ -1,6 +1,8 @@
 import { createContext, useEffect, useState} from 'react'
-import { databases, client } from '../lib/appwrite';
 import { ID } from 'react-native-appwrite';
+import { databases, client } from '../lib/appwrite';
+
+//Hooks
 import { useUser } from '../hooks/useUser';
 
 const DATABASE_ID = '682d7452002c55c324be'

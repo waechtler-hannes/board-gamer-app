@@ -1,7 +1,11 @@
-import { StyleSheet, FlatList, View, Keyboard } from 'react-native'
+import { StyleSheet, FlatList, View } from 'react-native'
 import HideWithKeyboard from 'react-native-hide-with-keyboard'
 import { router } from 'expo-router'
+
+//Hooks
 import { useEvents } from '../../hooks/useEvents'
+
+//Eigene Komponenten
 import BasicButton from '../../components/BasicButton'
 import EventView from '../../components/EventView'
 

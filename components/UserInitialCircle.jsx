@@ -1,5 +1,9 @@
 import { View, Text, StyleSheet } from 'react-native';
+
+//Hooks
 import { useUser } from '../hooks/useUser';
+
+//Konstanten
 import { Colors } from '../constants/Colors';
 
 const UserInitialCircle = () => {

@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Pressable, Text } from 'react-native'
-import { Ionicons } from '@expo/vector-icons'
 import DateTimePicker from '@react-native-community/datetimepicker'
+import { Ionicons } from '@expo/vector-icons'
 
 export default function DatePickerField({ value, setValue, style }) {
   const [show, setShow] = useState(false)

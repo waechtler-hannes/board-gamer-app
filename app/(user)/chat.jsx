@@ -1,10 +1,16 @@
 import { useState, useEffect } from 'react';
 import { Keyboard, KeyboardAvoidingView, Platform, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import { useChat } from '../../hooks/useChat';
-import { useUser } from '../../hooks/useUser';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { FlashList } from '@shopify/flash-list';
+
+//Konstanten
 import { Colors } from '../../constants/Colors';
+
+//Hooks
+import { useUser } from '../../hooks/useUser';
+import { useChat } from '../../hooks/useChat';
+
+//Eigene Komponenten
 import HostIconCircle from '../../components/HostIconCircle';
 
 const formatTime = dateStr =>
@@ -47,8 +53,8 @@ const Chat = () => {
           {!isOwn && <Text style={styles.userName}>{item.userName}</Text>}
           <View style={styles.msgTextRow}>
             <Text style={styles.msgText}>{item.text}</Text>
-            <Text style={styles.timeText}>{formatTime(item.createdAt)}</Text>
           </View>
+          <Text style={styles.timeText}>{formatTime(item.createdAt)}</Text>
         </View>
       </View>
     );
@@ -103,8 +109,8 @@ const styles = StyleSheet.create({
     padding: 10
   },
   msgTextRow: {
-    flexDirection: 'row',
-    alignItems: 'flex-end',
+    flexDirection: 'column',
+    alignItems: 'flex-start',
     justifyContent: 'flex-start',
     flexWrap: 'wrap'
   },
@@ -117,7 +123,8 @@ const styles = StyleSheet.create({
   timeText: {
     color: Colors.grey,
     fontSize: 11,
-    alignSelf: 'flex-end'
+    alignSelf: 'flex-end',
+    marginTop: 2
   },
   msgRow: {
     flexDirection: 'row',

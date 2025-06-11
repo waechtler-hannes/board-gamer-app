@@ -1,4 +1,6 @@
 import { StyleSheet, Text, View } from 'react-native'
+
+//Eigene Komponenten
 import VoteButton from './VoteButton'
 
 const VoteSection = ({ value, eventId, type, disabled }) => {

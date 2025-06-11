@@ -1,5 +1,7 @@
 import { createContext, useEffect, useRef, useState } from 'react'
 import { databases, client, Query } from '../lib/appwrite'
+
+//Hooks
 import { useUser } from '../hooks/useUser'
 
 const DATABASE_ID = '682d7452002c55c324be'

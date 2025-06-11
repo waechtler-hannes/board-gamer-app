@@ -1,4 +1,6 @@
 import { View, Text, StyleSheet } from 'react-native';
+
+//Konstanten
 import { Colors } from '../constants/Colors';
 
 const HostIconCircle = ({ hostName, style }) => {

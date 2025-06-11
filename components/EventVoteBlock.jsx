@@ -1,4 +1,6 @@
 import { Text, View } from 'react-native'
+
+//Eigene Komponenten
 import VoteSection from './VoteSection'
 import AddVoteable from './AddVoteable'
 

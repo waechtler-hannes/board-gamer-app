@@ -1,10 +1,14 @@
-import { Pressable, StyleSheet, Text, View } from 'react-native'
 import { useState, useEffect } from 'react'
+import { Pressable, StyleSheet, Text, View } from 'react-native'
 import Animated, { interpolate, measure, runOnUI, useAnimatedRef, useAnimatedStyle, useDerivedValue, useSharedValue, withTiming } from 'react-native-reanimated'
 import { Ionicons } from '@expo/vector-icons'
-import { Colors } from '../constants/Colors'
+
+//Hooks
 import { useRatings } from '../hooks/useRatings'
 import { useUser } from '../hooks/useUser'
+
+//Konstanten
+import { Colors } from '../constants/Colors'
 
 //Eigene Komponenten
 import HostIconCircle from './HostIconCircle'

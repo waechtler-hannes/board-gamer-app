@@ -1,6 +1,8 @@
 import { useRef, useState } from 'react'
 import { Keyboard, TextInput, StyleSheet, Text, View, TouchableWithoutFeedback, KeyboardAvoidingView } from 'react-native'
 import { Link } from 'expo-router'
+
+//Hooks
 import { useUser } from '../../hooks/useUser'
 
 //Konstanten

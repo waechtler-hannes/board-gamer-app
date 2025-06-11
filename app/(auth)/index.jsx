@@ -1,9 +1,14 @@
 import { useRef, useState } from 'react'
 import { Keyboard, TextInput, StyleSheet, Text, View, Image, TouchableWithoutFeedback, KeyboardAvoidingView } from 'react-native'
 import { Link } from 'expo-router'
+
+//Hooks
 import { useUser } from '../../hooks/useUser.js'
-import { account } from '../../lib/appwrite.js'
+
+//Konstanten
 import { Colors } from '../../constants/Colors.js'
+
+//Eigene Komponenten
 import BasicButton from '../../components/BasicButton.jsx'
 import Spacer from '../../components/Spacer.jsx'
 import Logo from '../../assets/img/logo.png'

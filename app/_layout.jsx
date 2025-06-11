@@ -1,5 +1,7 @@
-import { StatusBar } from 'expo-status-bar'
 import { Stack } from 'expo-router'
+import { StatusBar } from 'expo-status-bar'
+
+//Eigene Komponenten
 import { UserProvider } from '../contexts/UserContext'
 import { HostsProvider } from '../contexts/HostContext'
 import { EventsProvider } from '../contexts/EventsContext'

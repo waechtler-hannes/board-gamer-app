@@ -2,6 +2,8 @@ import { useState } from 'react'
 import { Text } from 'react-native'
 import { Dropdown } from 'react-native-element-dropdown'
 import { Ionicons } from '@expo/vector-icons'
+
+//Hooks
 import { useHosts } from '../hooks/useHosts'
 
 export default function HostDropdown({ value, setValue, style }) {
